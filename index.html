@@ -8,97 +8,374 @@
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/playground.css">
     <script src="js/battleship.js"></script>
+    <link rel="stylesheet" href="css/menu.css">
 </head>
 <body>
-<video playsinline autoplay muted loop poster="polina.jpg" id="bgvid">
+<!--background-->
+<video autoplay muted loop id="bgvid">
     <source src="./media/waves.mp4" type="video/mp4">
 </video>
-<div id="board">
-    <div id="messageArea"></div>
-    <table>
-        <tr>
-            <th class="numbers"></th>
-            <th class="numbers">0</th>
-            <th class="numbers">1</th>
-            <th class="numbers">2</th>
-            <th class="numbers">3</th>
-            <th class="numbers">4</th>
-            <th class="numbers">5</th>
-            <th class="numbers">6</th>
-        </tr>
+<!--background-->
+<nav class="navbar">
+    <div class="container-fluid">
+        <div class="navbar-header  menu-item">
+            <a class="navbar-brand logo" href="#">Battle Ships</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li class="menu-item"><a href="#"><span class="glyphicon glyphicon-registration-mark"></span>
+                Register</a></li>
 
-        <tr>
-            <th class="letters">A</th>
-            <td><div id="00"></div></td>
-            <td><div id="01"></div></td>
-            <td><div id="02"></div></td>
-            <td><div id="03"></div></td>
-            <td><div id="04"></div></td>
-            <td><div id="05"></div></td>
-            <td><div id="06"></div></td>
-        </tr>
-        <tr>
-            <th class="letters">B</th>
-            <td><div id="10"></div></td>
-            <td><div id="11"></div></td>
-            <td><div id="12"></div></td>
-            <td><div id="13"></div></td>
-            <td><div id="14"></div></td>
-            <td><div id="15"></div></td>
-            <td><div id="16"></div></td>
-        <tr>
-            <th class="letters">C</th>
-            <td><div id="20"></div></td>
-            <td><div id="21"></div></td>
-            <td><div id="22"></div></td>
-            <td><div id="23"></div></td>
-            <td><div id="24"></div></td>
-            <td><div id="25"></div></td>
-            <td><div id="26"></div></td>
-        </tr>
-        <tr>
-            <th class="letters">D</th>
-            <td><div id="30"></div></td>
-            <td><div id="31"></div></td>
-            <td><div id="32"></div></td>
-            <td><div id="33"></div></td>
-            <td><div id="34"></div></td>
-            <td><div id="35"></div></td>
-            <td><div id="36"></div></td>
-        </tr>
-        <tr>
-            <th class="letters">E</th>
-            <td><div id="40"></div></td>
-            <td><div id="41"></div></td>
-            <td><div id="42"></div></td>
-            <td><div id="43"></div></td>
-            <td><div id="44"></div></td>
-            <td><div id="45"></div></td>
-            <td><div id="46"></div></td>
-        </tr>
-        <tr>
-            <th class="letters">F</th>
-            <td><div id="50"></div></td>
-            <td><div id="51"></div></td>
-            <td><div id="52"></div></td>
-            <td><div id="53"></div></td>
-            <td><div id="54"></div></td>
-            <td><div id="55"></div></td>
-            <td><div id="56"></div></td>
-        </tr>
-        <tr>
-            <th class="letters">G</th>
-            <td><div id="60"></div></td>
-            <td><div id="61"></div></td>
-            <td><div id="62"></div></td>
-            <td><div id="63"></div></td>
-            <td><div id="64"></div></td>
-            <td><div id="65"></div></td>
-            <td><div id="66"></div></td>
-        </tr>
-    </table>
-</div>
-</div>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li class="menu-item"><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            <li class="menu-item"><a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
+            </li>
 
+        </ul>
+    </div>
+</nav>
+<section id="section-choose-map">
+    <div class="container">
+        <div class="row">
+            <div class="container col-sm-offset-3 col-md-offset-3 col-lg-offset-3 col-sm-6 col-md-6 col-lg-6 game-menu-focus">
+                <h2>Choose Map</h2>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Score</th>
+                        <th>Average score</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Map № 1</td>
+                        <td>33</td>
+                        <td>25</td>
+                    </tr>
+                    <tr>
+                        <td>Map № 2</td>
+                        <td>12</td>
+                        <td>89</td>
+                    </tr>
+                    <tr>
+                        <td>Map № 3</td>
+                        <td>44</td>
+                        <td>13</td>
+                    </tr>
+                    <tr>
+                        <td>Map № 4</td>
+                        <td><a href="#" class="btn btn-success" role="button">Play</a></td>
+                        <td>15</td>
+                    </tr>
+                    <tr>
+                        <td>Map № 5</td>
+                        <td><a href="#" class="btn btn-info" role="button">Resume</a></td>
+                        <td>17</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="section-how-to-play">
+    <div class="container">
+        <div class="row">
+            <div class="container col-sm-offset-4 col-md-offset-4 col-lg-offset-4 col-sm-4 col-md-4 col-lg-4 game-menu-focus">
+                <h2>How to play</h2>
+                <ul class="game-rules">
+                    <li><p  class="text-warning">Click on the map to reveal whether a boat is located there or not.</p></li>
+                    <li><p  class="text-warning">Reveal all 15 boats.</p></li>
+                    <li><p  class="text-warning">Each attempt deducts your score by 1.</p></li>
+                    <li><p  class="text-warning">Sank all the boats to win.</p></li>
+                    <li><p  class="text-warning">Less is more.</p></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="section-hall-of-fame">
+    <div class="container">
+        <div class="row">
+            <div class="container col-sm-offset-3 col-md-offset-3 col-lg-offset-3 col-sm-6 col-md-6 col-lg-6 game-menu-focus">
+                <h2>Hall Of Fame</h2>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Score</th>
+                        <th>Maps</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Anna</td>
+                        <td>109</td>
+                        <td>6</td>
+                    </tr>
+                    <tr>
+                        <td>Bob</td>
+                        <td>101</td>
+                        <td>6</td>
+                    </tr>
+                    <tr>
+                        <td>Carl</td>
+                        <td>78</td>
+                        <td>5</td>
+                    </tr>
+                    <tr>
+                        <td>Daniel</td>
+                        <td>67</td>
+                        <td>5</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="section-login">
+    <div class="container">
+        <div class="row">
+            <form class="form-horizontal col-sm-offset-4 col-md-offset-4 col-lg-offset-4 col-sm-4 col-md-4 col-lg-4 game-menu-focus">
+                <h3>Login</h3>
+                <div class="form-group">
+                    <input type="email" class="form-control" id="email-login" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" id="pwd-login" placeholder="Enter password">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success btn-block">Login</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+<section id="section-register">
+    <div class="container">
+        <div class="row">
+            <form class="form-horizontal col-sm-offset-4 col-md-offset-4 col-lg-offset-4 col-sm-4 col-md-4 col-lg-4 game-menu-focus">
+                <h3>Register</h3>
+                <div class="form-group">
+                    <input type="email" class="form-control" id="email-register" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" id="pwd-register" placeholder="Enter password">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" id="pwd-confirm-register" placeholder="Repeat password">
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label><input type="checkbox"> I agree with some bulls***s</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success btn-block">Register</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+<section id="section-game-menu">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-offset-4 col-md-offset-4 col-lg-offset-4 col-sm-4 col-md-4 col-lg-4 game-menu-focus">
+                <button type="button" class="btn btn-success btn-lg btn-block game-menu-button">Play</button>
+                <button type="button" class="btn btn-primary btn-lg btn-block game-menu-button">Choose Map</button>
+                <button type="button" class="btn btn-primary btn-lg btn-block game-menu-button">Create Map</button>
+                <button type="button" class="btn btn-primary btn-lg btn-block game-menu-button">Hall Of Fame</button>
+                <button type="button" class="btn btn-warning btn-lg btn-block game-menu-button">How To Play</button>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="section-game">
+    <div id="board">
+        <div id="messageArea"></div>
+        <table>
+            <tr>
+                <th class="numbers"></th>
+                <th class="numbers">0</th>
+                <th class="numbers">1</th>
+                <th class="numbers">2</th>
+                <th class="numbers">3</th>
+                <th class="numbers">4</th>
+                <th class="numbers">5</th>
+                <th class="numbers">6</th>
+            </tr>
+
+            <tr>
+                <th class="letters">A</th>
+                <td>
+                    <div id="00"></div>
+                </td>
+                <td>
+                    <div id="01"></div>
+                </td>
+                <td>
+                    <div id="02"></div>
+                </td>
+                <td>
+                    <div id="03"></div>
+                </td>
+                <td>
+                    <div id="04"></div>
+                </td>
+                <td>
+                    <div id="05"></div>
+                </td>
+                <td>
+                    <div id="06"></div>
+                </td>
+            </tr>
+            <tr>
+                <th class="letters">B</th>
+                <td>
+                    <div id="10"></div>
+                </td>
+                <td>
+                    <div id="11"></div>
+                </td>
+                <td>
+                    <div id="12"></div>
+                </td>
+                <td>
+                    <div id="13"></div>
+                </td>
+                <td>
+                    <div id="14"></div>
+                </td>
+                <td>
+                    <div id="15"></div>
+                </td>
+                <td>
+                    <div id="16"></div>
+                </td>
+            <tr>
+                <th class="letters">C</th>
+                <td>
+                    <div id="20"></div>
+                </td>
+                <td>
+                    <div id="21"></div>
+                </td>
+                <td>
+                    <div id="22"></div>
+                </td>
+                <td>
+                    <div id="23"></div>
+                </td>
+                <td>
+                    <div id="24"></div>
+                </td>
+                <td>
+                    <div id="25"></div>
+                </td>
+                <td>
+                    <div id="26"></div>
+                </td>
+            </tr>
+            <tr>
+                <th class="letters">D</th>
+                <td>
+                    <div id="30"></div>
+                </td>
+                <td>
+                    <div id="31"></div>
+                </td>
+                <td>
+                    <div id="32"></div>
+                </td>
+                <td>
+                    <div id="33"></div>
+                </td>
+                <td>
+                    <div id="34"></div>
+                </td>
+                <td>
+                    <div id="35"></div>
+                </td>
+                <td>
+                    <div id="36"></div>
+                </td>
+            </tr>
+            <tr>
+                <th class="letters">E</th>
+                <td>
+                    <div id="40"></div>
+                </td>
+                <td>
+                    <div id="41"></div>
+                </td>
+                <td>
+                    <div id="42"></div>
+                </td>
+                <td>
+                    <div id="43"></div>
+                </td>
+                <td>
+                    <div id="44"></div>
+                </td>
+                <td>
+                    <div id="45"></div>
+                </td>
+                <td>
+                    <div id="46"></div>
+                </td>
+            </tr>
+            <tr>
+                <th class="letters">F</th>
+                <td>
+                    <div id="50"></div>
+                </td>
+                <td>
+                    <div id="51"></div>
+                </td>
+                <td>
+                    <div id="52"></div>
+                </td>
+                <td>
+                    <div id="53"></div>
+                </td>
+                <td>
+                    <div id="54"></div>
+                </td>
+                <td>
+                    <div id="55"></div>
+                </td>
+                <td>
+                    <div id="56"></div>
+                </td>
+            </tr>
+            <tr>
+                <th class="letters">G</th>
+                <td>
+                    <div id="60"></div>
+                </td>
+                <td>
+                    <div id="61"></div>
+                </td>
+                <td>
+                    <div id="62"></div>
+                </td>
+                <td>
+                    <div id="63"></div>
+                </td>
+                <td>
+                    <div id="64"></div>
+                </td>
+                <td>
+                    <div id="65"></div>
+                </td>
+                <td>
+                    <div id="66"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</section>
 </body>
 </html>

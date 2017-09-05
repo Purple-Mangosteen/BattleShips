@@ -7,7 +7,7 @@
 }
 
 body {
-    background: #6FC3ED;
+    background: #4c8fff;
 }
 
 #board {
@@ -40,7 +40,7 @@ td {
 }
 
 td:hover {
-    background: #538daa;
+    background: #aa565d;
 }
 
 td div {
@@ -143,7 +143,7 @@ video#bgvid {
     -moz-transform: translateX(-50%) translateY(-50%);
     -webkit-transform: translateX(-50%) translateY(-50%);
     transform: translateX(-50%) translateY(-50%);
-    background: rgba(136, 163, 255, 0.71) no-repeat;
+    /*background: rgba(76, 143, 255, 0.71) no-repeat;*/
     background-size: cover;
     opacity: 0.5;
 }

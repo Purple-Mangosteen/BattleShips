@@ -1,0 +1,39 @@
+.menu-item{
+    margin: 0 3rem 0;
+}
+
+.menu-item *{
+    color: white;
+}
+
+.logo{
+    font-size: 2.4rem;
+}
+.game-menu-button{
+    display: block;
+    margin: 2rem 0;
+    font-size: 2.6rem;
+}
+.game-menu-focus{
+    border: solid 3px black;
+    border-radius: 2rem;
+    background: #333333;
+}
+
+.form-group{
+    margin: 2rem 0;
+    padding: 0 10px;
+}
+
+tbody>tr>td{
+    font-size: 2.4rem;
+}
+thead>tr>th{
+    font-size: 3rem;
+}
+
+.game-rules{
+    list-style-type: none;
+}
+
+
