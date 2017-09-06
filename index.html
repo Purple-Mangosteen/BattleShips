@@ -5,6 +5,9 @@
     <title>Playground</title>
     <script src="js/jquery-3.2.1.js"></script>
     <script src="js/bootstrap.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/models/auth.js"></script>
+    <script src="js/models/requester.js"></script>
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/playground.css">
     <script src="js/battleship.js"></script>
@@ -19,21 +22,25 @@
 <nav class="navbar">
     <div class="container-fluid">
         <div class="navbar-header  menu-item">
-            <a class="navbar-brand logo" href="#">Battle Ships</a>
+            <a class="navbar-brand logo"  href="#" id="battleShipsLogo">Battle Ships</a>
         </div>
         <ul class="nav navbar-nav">
-            <li class="menu-item"><a href="#"><span class="glyphicon glyphicon-registration-mark"></span>
-                Register</a></li>
-
+            <li class="menu-item"><a href="#" id="linkMenuRegister" class="anonymous" data-target="register"><span class="glyphicon glyphicon-registration-mark" ></span>
+                Register</a>
+            </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <li class="menu-item"><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-            <li class="menu-item"><a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
+            <li class="menu-item"><a href="#" class="anonymous" data-target="login"><span class="glyphicon glyphicon-log-in"  ></span> Login</a></li>
+            <li class="menu-item"><a href="#" id="linkMenuLogout" class="useronly"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
             </li>
 
         </ul>
     </div>
 </nav>
+<main>
+<section id="section-appHome">
+
+</section>
 <section id="section-choose-map">
     <div class="container">
         <div class="row">
@@ -138,10 +145,10 @@
 <section id="section-login">
     <div class="container">
         <div class="row">
-            <form class="form-horizontal col-sm-offset-4 col-md-offset-4 col-lg-offset-4 col-sm-4 col-md-4 col-lg-4 game-menu-focus">
+            <form id="formLogin" class="form-horizontal col-sm-offset-4 col-md-offset-4 col-lg-offset-4 col-sm-4 col-md-4 col-lg-4 game-menu-focus">
                 <h3>Login</h3>
                 <div class="form-group">
-                    <input type="email" class="form-control" id="email-login" placeholder="Enter your email">
+                    <input type="text" class="form-control" id="username-login" placeholder="Enter your username">
                 </div>
                 <div class="form-group">
                     <input type="password" class="form-control" id="pwd-login" placeholder="Enter password">
@@ -156,20 +163,23 @@
 <section id="section-register">
     <div class="container">
         <div class="row">
-            <form class="form-horizontal col-sm-offset-4 col-md-offset-4 col-lg-offset-4 col-sm-4 col-md-4 col-lg-4 game-menu-focus">
+            <form id="formRegister" class="form-horizontal col-sm-offset-4 col-md-offset-4 col-lg-offset-4 col-sm-4 col-md-4 col-lg-4 game-menu-focus">
                 <h3>Register</h3>
                 <div class="form-group">
-                    <input type="email" class="form-control" id="email-register" placeholder="Enter your email">
+                    <input type="text" class="form-control" id="username-register" placeholder="Enter your username" required>
                 </div>
                 <div class="form-group">
-                    <input type="password" class="form-control" id="pwd-register" placeholder="Enter password">
+                    <input type="email" class="form-control" id="email-register" placeholder="Enter your email" required>
                 </div>
                 <div class="form-group">
-                    <input type="password" class="form-control" id="pwd-confirm-register" placeholder="Repeat password">
+                    <input type="password" class="form-control" id="pwd-register" placeholder="Enter password" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" id="pwd-confirm-register" placeholder="Repeat password" required>
                 </div>
                 <div class="form-group">
                     <div class="checkbox">
-                        <label><input type="checkbox"> I agree with some bulls***s</label>
+                        <label><input type="checkbox" required> I agree with some bulls***s</label>
                     </div>
                 </div>
                 <div class="form-group">
@@ -183,11 +193,11 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-offset-4 col-md-offset-4 col-lg-offset-4 col-sm-4 col-md-4 col-lg-4 game-menu-focus">
-                <button type="button" class="btn btn-success btn-lg btn-block game-menu-button">Play</button>
-                <button type="button" class="btn btn-primary btn-lg btn-block game-menu-button">Choose Map</button>
+                <button type="button" class="btn btn-success btn-lg btn-block game-menu-button" data-target="game">Play</button>
+                <button type="button" class="btn btn-primary btn-lg btn-block game-menu-button" data-target="choose-map">Choose Map</button>
                 <button type="button" class="btn btn-primary btn-lg btn-block game-menu-button">Create Map</button>
-                <button type="button" class="btn btn-primary btn-lg btn-block game-menu-button">Hall Of Fame</button>
-                <button type="button" class="btn btn-warning btn-lg btn-block game-menu-button">How To Play</button>
+                <button type="button" class="btn btn-primary btn-lg btn-block game-menu-button" data-target="hall-of-fame">Hall Of Fame</button>
+                <button type="button" class="btn btn-warning btn-lg btn-block game-menu-button" data-target="how-to-play">How To Play</button>
             </div>
         </div>
     </div>
@@ -377,5 +387,11 @@
         </table>
     </div>
 </section>
+    </main>
+<div id="notifications">
+    <div id="loadingBox"  style="display: none" class="notification">Loading …</div>
+    <div id="infoBox"  style="display: none" class="notification">Info</div>
+    <div id="errorBox" style="display: none"  class="notification">Error</div>
+</div>
 </body>
 </html>
