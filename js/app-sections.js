@@ -5,19 +5,14 @@ $(()=>{
 
        $('nav').find('a[data-target]').click(navigateTo);
          $('.container').find('button[data-target]').click(navigateTo);
-
-
          $('#formRegister').submit(registerUser);
          $('#formLogin').submit(loginUser);
          $('#linkMenuLogout').click(logOutUser);
-
-
     })();
 
 
     function navigateTo() {
         let dataTarget = $(this).attr('data-target');
-
         showView(dataTarget);
     }
 
@@ -44,7 +39,7 @@ $(()=>{
                     registerUsername.val('');
                     registerPassword.val('');
                     registerConfirmPassword.val('');
-                    saveSession(userInfo);
+                    auth.saveSession(userInfo);
                     showInfo("Register successful." );
                     showView('game-menu');
                 })
@@ -53,7 +48,6 @@ $(()=>{
             })
         }
     }
-
 
     //--- LOGIN USER ---
     function loginUser(ev) {
@@ -68,8 +62,8 @@ $(()=>{
             .then((userInfo) =>{
                 loginUsername.val('');
                 loginPasswd.val('');
-                saveSession(userInfo);
-                showInfo("User login successful." );
+                auth.saveSession(userInfo);
+                notifier.showInfo("User login successful." );
                 showView('game-menu');
             })
             .catch((errorInfo) =>{
@@ -82,7 +76,7 @@ $(()=>{
         auth.logout()
             .then(() =>{
                 sessionStorage.clear();
-                showInfo('LogOut successful');
+                notifier.showInfo('LogOut successful');
                 userLoggedOut();
             })
             .catch(handleError)
@@ -91,22 +85,19 @@ $(()=>{
     //--- VALIDATIONS ---
     function validation(username, email, password, confirmPassword) {
         if(username.length < 3 ){
-            showError('username should be at least 3 characters');
+            notifier.showError('username should be at least 3 characters');
             return false
         }
         if(password.length < 4 ){
-            showError('password should be at least 4 characters');
+            notifier.showError('password should be at least 4 characters');
             return false
         }
         if(password !== confirmPassword){
-            showError("password doesn't match");
+            notifier.showError("password doesn't match");
             return false
         }
         return true
     }
-
-
-
 
 
     if(sessionStorage.getItem('authtoken') === null){
@@ -146,8 +137,8 @@ $(()=>{
     }
 
 
-
-    function saveSession(userInfo) {
+    //moved to auth.js
+    /* function saveSession(userInfo) {
         let userAuth = userInfo._kmd.authtoken;
         sessionStorage.setItem('authtoken', userAuth);
         let userId = userInfo._id;
@@ -156,16 +147,18 @@ $(()=>{
         sessionStorage.setItem('username', username);
         sessionStorage.setItem('name', userInfo['name']);
         userLoggedIn();
-    }
+    } */
 
-    function handleError(response) {
+
+    // moved to notifier.js
+    /* function handleError(response) {
         let errorMsg = JSON.stringify(response);
         if (response.readyState === 0)
             errorMsg = "Cannot connect due to network error.";
         if (response.responseJSON &&
             response.responseJSON.description)
             errorMsg = response.responseJSON.description;
-        showError(errorMsg);
+            notifier.showError(errorMsg);
     }
 
     function showInfo(message) {
@@ -180,7 +173,7 @@ $(()=>{
         errorBox.text(message);
         errorBox.show();
         setTimeout(() => errorBox.fadeOut(), 3000);
-    }
+    } */
 
 
     // ---HANDLE NOTIFICATIONS----

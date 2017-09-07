@@ -3,15 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Playground</title>
-    <script src="js/jquery-3.2.1.js"></script>
-    <script src="js/bootstrap.js"></script>
-    <script src="js/app.js"></script>
+    <script src="js/libs/sammy.js"></script>
+    <script src="js/libs/sammy.handlebars.js"></script>
+    <script src="js/libs/handlebars-v4.0.10.js"></script>
+    <script src="js/libs/jquery-3.2.1.js"></script>
+    <script src="js/libs/bootstrap.js"></script>   
+    <script src="js/models/notifier.js"></script>
+    <script src="js/models/validator.js"></script>
     <script src="js/models/auth.js"></script>
     <script src="js/models/requester.js"></script>
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/playground.css">
-    <script src="js/battleship.js"></script>
+    <script src="js/game/battleship.js"></script>
     <link rel="stylesheet" href="css/menu.css">
+    <script src="js/app-sammy.js"></script>
 </head>
 <body>
 <!--background-->
@@ -41,7 +46,7 @@
 <section id="section-appHome">
 
 </section>
-<section id="section-choose-map">
+<!-- <section id="section-choose-map">
     <div class="container">
         <div class="row">
             <div class="container col-sm-offset-3 col-md-offset-3 col-lg-offset-3 col-sm-6 col-md-6 col-lg-6 game-menu-focus">
@@ -85,8 +90,8 @@
             </div>
         </div>
     </div>
-</section>
-<section id="section-how-to-play">
+</section> -->
+<!-- <section id="section-how-to-play">
     <div class="container">
         <div class="row">
             <div class="container col-sm-offset-4 col-md-offset-4 col-lg-offset-4 col-sm-4 col-md-4 col-lg-4 game-menu-focus">
@@ -101,8 +106,8 @@
             </div>
         </div>
     </div>
-</section>
-<section id="section-hall-of-fame">
+</section> -->
+<!-- <section id="section-hall-of-fame">
     <div class="container">
         <div class="row">
             <div class="container col-sm-offset-3 col-md-offset-3 col-lg-offset-3 col-sm-6 col-md-6 col-lg-6 game-menu-focus">
@@ -141,8 +146,8 @@
             </div>
         </div>
     </div>
-</section>
-<section id="section-login">
+</section> -->
+<!-- <section id="section-login">
     <div class="container">
         <div class="row">
             <form id="formLogin" class="form-horizontal col-sm-offset-4 col-md-offset-4 col-lg-offset-4 col-sm-4 col-md-4 col-lg-4 game-menu-focus">
@@ -159,8 +164,8 @@
             </form>
         </div>
     </div>
-</section>
-<section id="section-register">
+</section> -->
+<!-- <section id="section-register">
     <div class="container">
         <div class="row">
             <form id="formRegister" class="form-horizontal col-sm-offset-4 col-md-offset-4 col-lg-offset-4 col-sm-4 col-md-4 col-lg-4 game-menu-focus">
@@ -188,8 +193,8 @@
             </form>
         </div>
     </div>
-</section>
-<section id="section-game-menu">
+</section> -->
+<!-- <section id="section-game-menu">
     <div class="container">
         <div class="row">
             <div class="col-sm-offset-4 col-md-offset-4 col-lg-offset-4 col-sm-4 col-md-4 col-lg-4 game-menu-focus">
@@ -201,8 +206,8 @@
             </div>
         </div>
     </div>
-</section>
-<section id="section-game">
+</section> -->
+<!-- <section id="section-game">
     <div id="board">
         <div id="messageArea"></div>
         <table>
@@ -386,7 +391,7 @@
             </tr>
         </table>
     </div>
-</section>
+</section> -->
     </main>
 <div id="notifications">
     <div id="loadingBox"  style="display: none" class="notification">Loading …</div>

@@ -30,9 +30,22 @@ let auth = (() => {
         return requester.post('user', '_logout', 'kinvey', logoutData);
     }
 
+    function saveSession(userInfo) {
+        let userAuth = userInfo._kmd.authtoken;
+        sessionStorage.setItem('authtoken', userAuth);
+        let userId = userInfo._id;
+        sessionStorage.setItem('userId', userId);
+        let username = userInfo.username;
+        sessionStorage.setItem('username', username);
+        sessionStorage.setItem('name', userInfo['name']);
+        userLoggedIn();
+    }
+
+
     return {
         login,
         register,
-        logout
+        logout,
+        saveSession
     }
 })()
