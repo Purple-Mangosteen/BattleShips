@@ -4,7 +4,6 @@ $(()=>{
      (()=>{
 
        $('nav').find('a[data-target]').click(navigateTo);
-       //  console.log($('.container').find('button[data-target]'));
          $('.container').find('button[data-target]').click(navigateTo);
 
 
@@ -49,6 +48,9 @@ $(()=>{
                     showInfo("Register successful." );
                     showView('game-menu');
                 })
+                .catch((errorInfo) =>{
+                handleError(errorInfo)
+            })
         }
     }
 
@@ -70,7 +72,9 @@ $(()=>{
                 showInfo("User login successful." );
                 showView('game-menu');
             })
-
+            .catch((errorInfo) =>{
+                handleError(errorInfo)
+            })
     }
 
     //--- LOGOUT USER ---
@@ -154,8 +158,14 @@ $(()=>{
         userLoggedIn();
     }
 
-    function handleError(reason) {
-        showError(reason.responseJSON.description);
+    function handleError(response) {
+        let errorMsg = JSON.stringify(response);
+        if (response.readyState === 0)
+            errorMsg = "Cannot connect due to network error.";
+        if (response.responseJSON &&
+            response.responseJSON.description)
+            errorMsg = response.responseJSON.description;
+        showError(errorMsg);
     }
 
     function showInfo(message) {
