@@ -4,14 +4,11 @@ $(()=>{
      (()=>{
 
        $('nav').find('a[data-target]').click(navigateTo);
-       //  console.log($('.container').find('button[data-target]'));
          $('.container').find('button[data-target]').click(navigateTo);
-
 
          $('#formRegister').submit(registerUser);
          $('#formLogin').submit(loginUser);
          $('#linkMenuLogout').click(logOutUser);
-
 
     })();
 
@@ -49,6 +46,9 @@ $(()=>{
                     showInfo("Register successful." );
                     showView('game-menu');
                 })
+                .catch((errorInfo) =>{
+                handleError(errorInfo)
+            })
         }
     }
 
@@ -69,6 +69,9 @@ $(()=>{
                 saveSession(userInfo);
                 showInfo("User login successful." );
                 showView('game-menu');
+            })
+            .catch((errorInfo) =>{
+                handleError(errorInfo)
             })
 
     }
@@ -100,8 +103,6 @@ $(()=>{
         }
         return true
     }
-
-
 
 
 
@@ -142,7 +143,6 @@ $(()=>{
     }
 
 
-
     function saveSession(userInfo) {
         let userAuth = userInfo._kmd.authtoken;
         sessionStorage.setItem('authtoken', userAuth);
@@ -154,9 +154,7 @@ $(()=>{
         userLoggedIn();
     }
 
-    function handleError(reason) {
-        showError(reason.responseJSON.description);
-    }
+
 
     function showInfo(message) {
         let infoBox = $('#infoBox');
@@ -164,6 +162,17 @@ $(()=>{
         infoBox.show();
         setTimeout(() => infoBox.fadeOut(), 3000);
     }
+
+    function handleError(response) {
+        let errorMsg = JSON.stringify(response);
+        if (response.readyState === 0)
+            errorMsg = "Cannot connect due to network error.";
+        if (response.responseJSON &&
+            response.responseJSON.description)
+            errorMsg = response.responseJSON.description;
+        showError(errorMsg);
+    }
+
 
     function showError(message) {
         let errorBox = $('#errorBox');
