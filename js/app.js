@@ -2,9 +2,9 @@ function startApp() {
 
     //NOTIFICATIONS
     //$('section').hide();
-    $('#errorBox').hide();
-    $('#infoBox').hide();
-    $('#loadingBox').hide();
+    //$('#errorBox').hide();
+    //$('#infoBox').hide();
+    //$('#loadingBox').hide();
 
     $(document).on({
         ajaxStart: () => $('#loadingBox').show(),
@@ -109,7 +109,7 @@ function startApp() {
             ctx.loadPartials({
                 header: '../templates/common/header.hbs',
             }).then(function () {
-                this.partial('../templates/highscore/halloffame.hbs');
+                this.partial('../templates/gameresults/halloffame.hbs');
             });
         }
 
@@ -122,6 +122,7 @@ function startApp() {
             });
         }
 
+        // insert new implementation
         function logInUser(ctx) {
             let username = ctx.params.username;
             let password = ctx.params.password;
@@ -139,6 +140,7 @@ function startApp() {
                 .catch(notifier.handleError);
         }
 
+        // insert new implementation
         function logOutUser(ctx) {
             auth.logout()
                 .then(function () {
@@ -150,6 +152,7 @@ function startApp() {
                 .catch(auth.handleError);
         }
 
+        // insert new implementation
         function registerUser(ctx) {
             let newUser = {
                 username: ctx.params.username,
