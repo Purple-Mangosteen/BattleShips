@@ -1,4 +1,6 @@
 function startApp() {
+
+    //NOTIFICATIONS
     //$('section').hide();
     $('#errorBox').hide();
     $('#infoBox').hide();
@@ -13,7 +15,8 @@ function startApp() {
     $('#errorBox').click((e) => $(e.target).hide());
 
 
-    const app = Sammy('#container', function () {
+    //INITIALIZE SAMMY AND HANDLEBARS
+    const app = Sammy('#pagebody', function () {
         // TODO: Define all the routes      
         console.log('i work!');
 
@@ -23,13 +26,16 @@ function startApp() {
         //routes
         this.get('index.html', redirectToHome);
         this.get('#/home', displayHome);
+        this.get('#/login', displayLoginForm);
+        this.get('#/register', displayRegisterForm);
         this.get('#/logout', logOutUser);
         this.get('#/choose-map', displayChooseMapForm);
-        this.get('#/myposts', displayMyPosts);
-        this.get('#/deletepost/:id', deletePost);
-        this.get('#/editpost/:id', displayEditPostForm);
-        this.get('#/postdetails/:id', displayPostDetails);
-        this.get('#/deletecomment/:id', deleteComment);
+        this.get('#/play', displayGameBoard); //possibly '#play/:id'  where id is the id of the map
+        this.get('#/create-map', displayCreateMapForm);
+        this.get('#/hall-of-fame', displayHallOfFame);
+        this.get('#/how-to-play', displayHowToPlay);
+
+        //this.get('#/deletepost/:id', deletePost);
 
 
         //put this last!
@@ -37,10 +43,7 @@ function startApp() {
 
         this.post('#/login', logInUser);
         this.post('#/register', registerUser);
-        this.post('#/newpost', saveNewPost);
-        this.post('#/editpost/:id', savePostEdits);
-        this.post('#/addcomment/:id', saveComment);
-
+        this.post('#/newMap', saveNewMap);
 
         //functions
         function redirectToHome(ctx) {
@@ -49,14 +52,73 @@ function startApp() {
 
         function displayHome(ctx) {
 
-            if (sessionStorage.getItem('authtoken')) {
-                ctx.redirect('#/catalog');
-            }
-
             ctx.loadPartials({
                 header: '../templates/common/header.hbs',
             }).then(function () {
                 this.partial('../templates/home/home.hbs');
+            });
+        }
+
+        function displayLoginForm(ctx) {
+
+            ctx.loadPartials({
+                header: '../templates/common/header.hbs',
+            }).then(function () {
+                this.partial('../templates/user/loginform.hbs');
+            });
+        }
+
+        function displayRegisterForm(ctx) {
+
+            ctx.loadPartials({
+                header: '../templates/common/header.hbs',
+            }).then(function () {
+                this.partial('../templates/user/registerform.hbs');
+            });
+        }        
+
+        function displayChooseMapForm(ctx) {
+
+            ctx.loadPartials({
+                header: '../templates/common/header.hbs',
+            }).then(function () {
+                this.partial('../templates/gameplay/chosegame.hbs');
+            });
+        }
+
+        function displayGameBoard(ctx) {
+
+            ctx.loadPartials({
+                header: '../templates/common/header.hbs',
+            }).then(function () {
+                this.partial('../templates/gameplay/gameboard.hbs');
+            });
+        }
+
+        function displayCreateMapForm(ctx) {
+
+            ctx.loadPartials({
+                header: '../templates/common/header.hbs',
+            }).then(function () {
+                this.partial('../templates/gameadmin/createmapform.hbs');
+            });
+        }
+
+        function displayHallOfFame(ctx) {
+
+            ctx.loadPartials({
+                header: '../templates/common/header.hbs',
+            }).then(function () {
+                this.partial('../templates/highscore/halloffame.hbs');
+            });
+        }
+
+        function displayHowToPlay(ctx) {
+
+            ctx.loadPartials({
+                header: '../templates/common/header.hbs',
+            }).then(function () {
+                this.partial('../templates/gameplay/howtoplay.hbs');
             });
         }
 
@@ -120,22 +182,9 @@ function startApp() {
             }
         }
 
-        function displayChooseMapForm(ctx) {
-
-            if (sessionStorage.getItem('authtoken')) {
-                ctx.redirect('#/catalog');
-            }
-
-            ctx.loadPartials({
-                header: '../templates/common/header.hbs',
-            }).then(function () {
-                this.partial('../templates/home/home.hbs');
-            });
+        function saveNewMap(ctx){
+            console.log('saving new map!');
         }
-
-
-
-
 
         //end of Sammy app
     });
