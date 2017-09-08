@@ -58,18 +58,19 @@ function startApp() {
                 this.partial('./templates/login/loginPage.hbs');
             });
         }
+
         function logInUser(ctx) {
             let username = ctx.params.username;
             let password = ctx.params.password;
 
-                auth.login(username, password)
-                 .then((userInfo) => {
-                     console.log('logged in!');
-                     auth.saveSession(userInfo);
-                     notifier.showInfo('Login successful.');
-                     ctx.redirect('#/home');
-                 })
-                 .catch(notifier.handleError);
+            auth.login(username, password)
+                .then((userInfo) => {
+                    console.log('logged in!');
+                    auth.saveSession(userInfo);
+                    notifier.showInfo('Login successful.');
+                    ctx.redirect('#/home');
+                })
+                .catch(notifier.handleError);
         }
 
 
@@ -88,17 +89,17 @@ function startApp() {
         }
 
         function registerUser(ctx) {
-            let  username = ctx.params.username;
-            let  email = ctx.params.email;
+            let username = ctx.params.username;
+            let email = ctx.params.email;
             let password = ctx.params.password;
             let repeatPass = ctx.params.repeatPass;
 
-            if(validator.validateUserName(username) &&
+            if (validator.validateUserName(username) &&
                 validator.validatePass(password) &&
-                validator.checkIfPasswordMatch(password, repeatPass)){
+                validator.checkIfPasswordMatch(password, repeatPass)) {
 
-                 auth.register(username, password, email)
-                    .then((userInfo) =>{
+                auth.register(username, password, email)
+                    .then((userInfo) => {
                         auth.saveSession(userInfo);
                         notifier.showInfo('Registered and Logged in!');
                         ctx.redirect('#/home');
@@ -157,11 +158,24 @@ function startApp() {
             ctx.isAnonymous = sessionStorage.getItem('username') === null;
             ctx.username = sessionStorage.getItem('username');
 
-            ctx.loadPartials({
-                header: './templates/common/header.hbs',
-            }).then(function () {
-                this.partial('./templates/gameresults/halloffame.hbs');
-            });
+            //?query={"author":"${ctx.username}"}&sort={"_kmd.ect": -1}`, ''
+            //?query={}&limit=20&skip=0
+            //?query={}&limit=20&skip=20
+            //?query={}&limit=20&skip=40
+
+            requester.get('user', '?query={}&sort={"totalScore": -1,"gamesPLayed":-1}&limit=10', '')
+                .then(function (results) {
+                    ctx.results = results;
+
+                    console.log(ctx.results);
+
+                    ctx.loadPartials({
+                        header: './templates/common/header.hbs',
+                        highScoresList: './templates/gameresults/highScoresList.hbs'
+                    }).then(function () {
+                        this.partial('./templates/gameresults/halloffamePage.hbs');
+                    });
+                }).catch(notifier.handleError);
         }
 
         function displayHowToPlay(ctx) {
@@ -174,8 +188,6 @@ function startApp() {
                 this.partial('./templates/gameplay/howtoplay.hbs');
             });
         }
-
-
 
     });
 
