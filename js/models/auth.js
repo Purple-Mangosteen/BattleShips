@@ -38,8 +38,8 @@ let auth = (() => {
         let username = userInfo.username;
         sessionStorage.setItem('username', username);
         sessionStorage.setItem('name', userInfo['name']);
-        userLoggedIn();
     }
+
 
 
     return {
@@ -48,4 +48,4 @@ let auth = (() => {
         logout,
         saveSession
     }
-})()
+})();
