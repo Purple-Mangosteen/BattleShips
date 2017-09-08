@@ -38,23 +38,21 @@ thead>tr>th{
 
 
 #notifications {
-    float: right;
     position: absolute;
-    top: 0;
-    right: 0;
-    text-align: center;
+    top: 80vh;
+    right: 40vw;
     margin: 1em;
-}
+    }
 
 .notification {
+    width: 20vw;
     font-size: 1.6em;
     color: #ffffff;
     display: none;
-    text-align: right;
+    text-align: left;
 }
 
 .notification {
-    display: inline-block;
     padding:  0.5em 1.5em 0.5em 1.5em;
     border-radius: 10px;
 }
@@ -68,5 +66,7 @@ thead>tr>th{
 #errorBox {
     background: #F50;
 }
+
+
 
 
