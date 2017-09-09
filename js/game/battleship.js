@@ -1,4 +1,5 @@
 let playground = (() => {
+
 let model = {
     boardSize: 7,
     numShips: 3,
@@ -77,7 +78,8 @@ let controller = {
 };
 
 function init() {
-
+    $('#game-init-button').hide();
+    $('#board').show();
     console.log('game init');
     let guessClick = document.getElementsByTagName("td");
     for (let i = 0; i < guessClick.length; i++) {

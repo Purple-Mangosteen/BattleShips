@@ -1,7 +1,14 @@
 {{> header}}
 
 <section id="section-game">
-    <div id="board">
+    <div class="container" id="game-init-button">
+        <div class="row">
+            <div class="col-sm-offset-4 col-md-offset-4 col-lg-offset-4 col-sm-4 col-md-4 col-lg-4 game-menu-focus">
+                <button type="button" class="btn btn-success btn-lg btn-block game-menu-button" data-target="game" onclick="playground.init();">Let the battle begin!</button>
+            </div>
+        </div>
+    </div>
+    <div id="board" style="display: none;">
         <div id="messageArea"></div>
         <table>
             <tr>
@@ -183,6 +190,6 @@
                 </td>
             </tr>
         </table>
-        <button class="btn btn-success btn-lg btn-block game-menu-button" onclick="playground.init();">Let the battle begin!</button>
+
     </div>
 </section>
