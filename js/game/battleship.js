@@ -1,3 +1,4 @@
+let playground = (() => {
 let model = {
     boardSize: 7,
     numShips: 3,
@@ -75,10 +76,9 @@ let controller = {
     }
 };
 
-window.onload = init;
-
 function init() {
 
+    console.log('game init');
     let guessClick = document.getElementsByTagName("td");
     for (let i = 0; i < guessClick.length; i++) {
         guessClick[i].onclick = answer;
@@ -92,6 +92,12 @@ function answer(eventObj) {
     let location = shot.id;
     controller.processGuess(location);
 }
+return{
+    init,
+    answer
+}
+})();
+
 
 
 
