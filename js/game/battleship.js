@@ -3,12 +3,13 @@ let playground = (() => {
     const gameWinScore = 9;
     const fields = 7 * 7;
     const hitsToSink = 3;
+    const startingPoints = fields - gameWinScore;
 
     let model = {
         ships: [],
         score: 0,
-        history: new Array(fields).fill('unknown')
-
+        history: new Array(fields).fill('unknown'),
+        points: startingPoints
     };
 
     let view = {
@@ -23,8 +24,8 @@ let playground = (() => {
 
         },
 
-        displayWinn: function () {
-            this.displayMessage('You won!');
+        displayWinn: function (points) {
+            this.displayMessage(`You won with a score of ${points}!`);
             $('table').hide();
 
         },
@@ -39,24 +40,54 @@ let playground = (() => {
 
         // hard coded map ID
 
-        // get ships location from the database
-        requester.get('appdata', 'gameBoards/59b456d4797e4f820497665f', '').then((mapInfo) => {
-            for (let i = 0; i < mapInfo.board.length; i++) {
-                let ship = {hits: 0, coordinates: mapInfo.board[i].coordinates};
-                model.ships.push(ship);
-            }
+        // get all maps from database
+        requester.get('appdata', 'gameBoards', '').then((boardsInfo) => {
+            requester.get('appdata', `gamesPlayed?query={"userId":"${sessionStorage.getItem('userId')}"}`, '').then((playedMapsInfo) => {
+
+                // all maps that has been started or completed
+                let mapsStarted = [];
+                let mapsAvailable= false;
+
+                for (let map of playedMapsInfo) {
+                    mapsStarted.push(map.gameId);
+                }
+
+                // loops through all the maps and picks the first not started
+                for (let board of boardsInfo) {
+
+                    // if the map has not been started yet it is loaded
+                    if (!mapsStarted.includes(board._id)) {
+
+                        mapsAvailable = true;
+
+                        // get ships location from the database
+                        requester.get('appdata', 'gameBoards/'+board._id, '').then((mapInfo) => {
+                            for (let i = 0; i < mapInfo.board.length; i++) {
+                                let ship = {hits: 0, coordinates: mapInfo.board[i].coordinates};
+                                model.ships.push(ship);
+                            }
+                        });
+
+                        // hides game start button
+                        $('#game-init-button').hide();
+
+                        console.log('game initialization...');
+
+                        // attach click event listener to each field
+                        let battleBlocks = $('td');
+                        for (let block of battleBlocks) {
+                            $(block).on('click', shoot);
+                        }
+                        view.displayMessage("Let's play! There are 3 ships, each 3 cells long");
+                        break;
+
+                    }
+                }
+                if(!mapsAvailable){
+                    view.displayMessage("You have played all the maps !");
+                }
+            });
         });
-
-        // hides game start button
-        $('#game-init-button').hide();
-
-        console.log('game initialization...');
-
-        let battleBlocks = $('td');
-        for (let block of battleBlocks) {
-            $(block).on('click', shoot);
-        }
-        view.displayMessage("Let's play! There are 3 ships, each 3 cells long");
 
 
     }
@@ -64,8 +95,10 @@ let playground = (() => {
     function shoot() {
         let fieldId = $(this).find('div:first').attr('id');
         let result = 'miss';
+
         // checks outcome of the shoot
         for (let ship of model.ships) {
+
             // checks if it hits
             for (let i = 0; i < ship.coordinates.length; i++) {
                 if (ship.coordinates[i].hasOwnProperty(fieldId) && ship.coordinates[i][fieldId] === 'ship') {
@@ -88,6 +121,7 @@ let playground = (() => {
         if (result === 'miss') {
             view.displayMiss(fieldId);
             view.displayMessage('Miss!');
+            model.points--;
         } else {
             view.displayHit(fieldId);
             view.displayMessage('You hit a battleship!');
@@ -99,7 +133,7 @@ let playground = (() => {
 
         // checks if game has ended
         if (model.score === gameWinScore) {
-            view.displayWinn();
+            view.displayWinn(model.points);
         }
     }
 
