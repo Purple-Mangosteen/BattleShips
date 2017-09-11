@@ -14,7 +14,7 @@ function startApp() {
         this.use('Handlebars', 'hbs');
 
         // HOME
-        this.get('index.html', displayHome);
+        this.get('index.html', redirectToHome);
         this.get('#/home', displayHome);
 
         this.get('#/login', displayLoginForm);
@@ -26,11 +26,17 @@ function startApp() {
         this.get('#/hall-of-fame', displayHallOfFame);
         this.get('#/how-to-play', displayHowToPlay);
 
+        //put this last!
+        this.get('', redirectToHome);
+
 
         this.post('#/login', logInUser);
         this.post('#/register', registerUser);
 
-
+        
+        function redirectToHome(ctx) {
+            ctx.redirect('index.html#/home');
+        }
 
         function displayHome(ctx) {
 
@@ -38,7 +44,7 @@ function startApp() {
             ctx.username = sessionStorage.getItem('username');
             ctx.gameCount;
 
-            requester.get('appdata', 'gameBoards/_count','Master')
+            requester.get('appdata', 'gameBoards/_count', 'Master')
                 .then(function (count) {
                     console.log(count['count']);
                     ctx.gameCount = count['count'];
