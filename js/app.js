@@ -36,13 +36,22 @@ function startApp() {
 
             ctx.isAnonymous = sessionStorage.getItem('username') === null;
             ctx.username = sessionStorage.getItem('username');
+            ctx.gameCount;
 
-            ctx.loadPartials({
-                header: './templates/common/header.hbs',
-                home: './templates/home/home.hbs'
-            }).then(function () {
-                this.partial('./templates/home/homePage.hbs');
-            });
+            requester.get('appdata', 'gameBoards/_count','Master')
+                .then(function (count) {
+                    console.log(count['count']);
+                    ctx.gameCount = count['count'];
+
+                    ctx.loadPartials({
+                        header: './templates/common/header.hbs',
+                        footer: './templates/common/footer.hbs',
+                        home: './templates/home/home.hbs'
+                    }).then(function () {
+                        this.partial('./templates/home/homePage.hbs');
+                    });
+
+                }).catch(notifier.handleError);
         }
 
 
@@ -54,6 +63,7 @@ function startApp() {
             ctx.loadPartials({
                 header: './templates/common/header.hbs',
                 loginform: './templates/login/loginform.hbs',
+                footer: './templates/common/footer.hbs',
             }).then(function () {
                 this.partial('./templates/login/loginPage.hbs');
             });
@@ -82,7 +92,8 @@ function startApp() {
 
             ctx.loadPartials({
                 header: './templates/common/header.hbs',
-                registerForm: './templates/register/registerform.hbs'
+                registerForm: './templates/register/registerform.hbs',
+                footer: './templates/common/footer.hbs',
             }).then(function () {
                 this.partial('./templates/register/registerPage.hbs')
             });
@@ -127,6 +138,7 @@ function startApp() {
 
             ctx.loadPartials({
                 header: './templates/common/header.hbs',
+                footer: './templates/common/footer.hbs',
             }).then(function () {
                 this.partial('./templates/gameplay/chosegame.hbs');
             });
@@ -138,6 +150,7 @@ function startApp() {
 
             ctx.loadPartials({
                 header: './templates/common/header.hbs',
+                footer: './templates/common/footer.hbs',
             }).then(function () {
                 this.partial('./templates/gameplay/gameboard.hbs');
             });
@@ -149,6 +162,7 @@ function startApp() {
 
             ctx.loadPartials({
                 header: './templates/common/header.hbs',
+                footer: './templates/common/footer.hbs',
             }).then(function () {
                 this.partial('./templates/gameadmin/createmapform.hbs');
             });
@@ -171,6 +185,7 @@ function startApp() {
 
                     ctx.loadPartials({
                         header: './templates/common/header.hbs',
+                        footer: './templates/common/footer.hbs',
                         highScoresList: './templates/gameresults/highScoresList.hbs'
                     }).then(function () {
                         this.partial('./templates/gameresults/halloffamePage.hbs');
@@ -184,6 +199,7 @@ function startApp() {
 
             ctx.loadPartials({
                 header: './templates/common/header.hbs',
+                footer: './templates/common/footer.hbs',
             }).then(function () {
                 this.partial('./templates/gameplay/howtoplay.hbs');
             });

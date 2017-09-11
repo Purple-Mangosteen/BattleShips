@@ -20,6 +20,24 @@
     background: #333333;
 }
 
+.game-add-row{  
+    text-align: center;
+    padding: 5px;
+    margin-top: 10px;
+    border: solid 3px black;
+    border-radius: 2rem;
+    background: #333333;
+    min-height: 100px;
+}
+.game-add-box{
+    min-height: 60px;
+    border: solid 3px black;
+    border-radius: 2rem;
+    background: #D37E1D;
+    margin-bottom: 5px;
+    color: black;
+}
+
 .form-group{
     margin: 2rem 0;
     padding: 0 10px;
