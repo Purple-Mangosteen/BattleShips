@@ -38,6 +38,16 @@
     color: black;
 }
 
+.game-create-nav{  
+    text-align: center;
+    padding: 5px;
+    margin-top: 10px;
+    border: solid 3px black;
+    border-radius: 2rem;
+    background: #333333;
+    min-height: 100px;
+}
+
 .form-group{
     margin: 2rem 0;
     padding: 0 10px;
