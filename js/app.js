@@ -37,7 +37,7 @@ function startApp() {
 
 
         function redirectToHome(ctx) {
-            ctx.redirect('index.html#/home');
+            ctx.redirect('/BattleShips/index.html#/home');
         }
 
         function displayHome(ctx) {
