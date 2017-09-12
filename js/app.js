@@ -15,8 +15,8 @@ function startApp() {
         this.use('Handlebars', 'hbs');
 
         // HOME
-        this.get('index.html', displayHome);
-        this.get('index.html/#home', displayHome);
+        this.get('/index.html', displayHome);
+        this.get('/index.html/#home', displayHome);
         this.get('#/home', displayHome);
 
         this.get('#/login', displayLoginForm);
@@ -37,7 +37,9 @@ function startApp() {
 
 
         function redirectToHome(ctx) {
-            ctx.redirect('/BattleShips/index.html#/home');
+            let prefix='/BattleShips';
+            //let prefix='';
+            ctx.redirect(prefix+'/index.html#/home');
         }
 
         function displayHome(ctx) {
@@ -51,11 +53,11 @@ function startApp() {
                     ctx.gameCount = count['count'];
 
                     ctx.loadPartials({
-                        header: '/templates/common/header.hbs',
-                        footer: '/templates/common/footer.hbs',
-                        home: '/templates/home/home.hbs'
+                        header: '/BattleShips/templates/common/header.hbs',
+                        footer: '../templates/common/footer.hbs',
+                        home: '../templates/home/home.hbs'
                     }).then(function () {
-                        this.partial('/templates/home/homePage.hbs');
+                        this.partial('../templates/home/homePage.hbs');
                     });
 
                 }).catch(notifier.handleError);
