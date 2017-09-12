@@ -145,8 +145,13 @@ let playground = (() => {
             gameId: sessionStorage.getItem('boardId'),
             userId: sessionStorage.getItem('userId'),
             score: model.points,
-            boardProgress: model.history
+            boardProgress: model.history,
+            gameFinished : false
         };
+
+        if (model.score === gameWinScore) {
+            historyData.gameFinished = true;
+        }
 
         requester.update('appdata', 'gamesPlayed/' + sessionStorage.getItem('historyId'), '', historyData).then((data) => {
             console.log('move saved');

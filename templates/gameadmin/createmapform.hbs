@@ -1,188 +1,189 @@
 {{> header}}
 
 <section id="section-game">
-        <div id="board">
-            <h2>Create a new Map</h2>
-            <div id="messageArea"></div>
-            <table>
-                <tr>
-                    <th class="numbers"></th>
-                    <th class="numbers">0</th>
-                    <th class="numbers">1</th>
-                    <th class="numbers">2</th>
-                    <th class="numbers">3</th>
-                    <th class="numbers">4</th>
-                    <th class="numbers">5</th>
-                    <th class="numbers">6</th>
-                </tr>
-    
-                <tr>
-                    <th class="letters">A</th>
-                    <td>
-                        <div id="00"></div>
-                    </td>
-                    <td>
-                        <div id="01"></div>
-                    </td>
-                    <td>
-                        <div id="02"></div>
-                    </td>
-                    <td>
-                        <div id="03"></div>
-                    </td>
-                    <td>
-                        <div id="04"></div>
-                    </td>
-                    <td>
-                        <div id="05"></div>
-                    </td>
-                    <td>
-                        <div id="06"></div>
-                    </td>
-                </tr>
-                <tr>
-                    <th class="letters">B</th>
-                    <td>
-                        <div id="10"></div>
-                    </td>
-                    <td>
-                        <div id="11"></div>
-                    </td>
-                    <td>
-                        <div id="12"></div>
-                    </td>
-                    <td>
-                        <div id="13"></div>
-                    </td>
-                    <td>
-                        <div id="14"></div>
-                    </td>
-                    <td>
-                        <div id="15"></div>
-                    </td>
-                    <td>
-                        <div id="16"></div>
-                    </td>
-                <tr>
-                    <th class="letters">C</th>
-                    <td>
-                        <div id="20"></div>
-                    </td>
-                    <td>
-                        <div id="21"></div>
-                    </td>
-                    <td>
-                        <div id="22"></div>
-                    </td>
-                    <td>
-                        <div id="23"></div>
-                    </td>
-                    <td>
-                        <div id="24"></div>
-                    </td>
-                    <td>
-                        <div id="25"></div>
-                    </td>
-                    <td>
-                        <div id="26"></div>
-                    </td>
-                </tr>
-                <tr>
-                    <th class="letters">D</th>
-                    <td>
-                        <div id="30"></div>
-                    </td>
-                    <td>
-                        <div id="31"></div>
-                    </td>
-                    <td>
-                        <div id="32"></div>
-                    </td>
-                    <td>
-                        <div id="33"></div>
-                    </td>
-                    <td>
-                        <div id="34"></div>
-                    </td>
-                    <td>
-                        <div id="35"></div>
-                    </td>
-                    <td>
-                        <div id="36"></div>
-                    </td>
-                </tr>
-                <tr>
-                    <th class="letters">E</th>
-                    <td>
-                        <div id="40"></div>
-                    </td>
-                    <td>
-                        <div id="41"></div>
-                    </td>
-                    <td>
-                        <div id="42"></div>
-                    </td>
-                    <td>
-                        <div id="43"></div>
-                    </td>
-                    <td>
-                        <div id="44"></div>
-                    </td>
-                    <td>
-                        <div id="45"></div>
-                    </td>
-                    <td>
-                        <div id="46"></div>
-                    </td>
-                </tr>
-                <tr>
-                    <th class="letters">F</th>
-                    <td>
-                        <div id="50"></div>
-                    </td>
-                    <td>
-                        <div id="51"></div>
-                    </td>
-                    <td>
-                        <div id="52"></div>
-                    </td>
-                    <td>
-                        <div id="53"></div>
-                    </td>
-                    <td>
-                        <div id="54"></div>
-                    </td>
-                    <td>
-                        <div id="55"></div>
-                    </td>
-                    <td>
-                        <div id="56"></div>
-                    </td>
-                </tr>
-                <tr>
-                    <th class="letters">G</th>
-                    <td>
-                        <div id="60"></div>
-                    </td>
-                    <td>
-                        <div id="61"></div>
-                    </td>
-                    <td>
-                        <div id="62"></div>
-                    </td>
-                    <td>
-                        <div id="63"></div>
-                    </td>
-                    <td>
-                        <div id="64"></div>
-                    </td>
-                    <td>
-                        <div id="65"></div>
-                    </td>
-                    <td>
-                        <div id="66"></div>
-                    </td>
-                </tr>
-            </table>
-        </div>
-    </section>
+    <div id="board">
+        <button type="button" id="createMapBtn" class="btn btn-success btn-lg  pull-right create" >Create Map</button>
+        <h2>Create a new Map</h2>
+
+        <table>
+            <tr>
+                <th class="numbers"></th>
+                <th class="numbers">0</th>
+                <th class="numbers">1</th>
+                <th class="numbers">2</th>
+                <th class="numbers">3</th>
+                <th class="numbers">4</th>
+                <th class="numbers">5</th>
+                <th class="numbers">6</th>
+            </tr>
+
+            <tr>
+                <th class="letters">A</th>
+                <td>
+                    <div data-id="0"></div>
+                </td>
+                <td>
+                    <div data-id="1"></div>
+                </td>
+                <td>
+                    <div data-id="2"></div>
+                </td>
+                <td>
+                    <div data-id="3"></div>
+                </td>
+                <td>
+                    <div data-id="4"></div>
+                </td>
+                <td>
+                    <div data-id="5"></div>
+                </td>
+                <td>
+                    <div data-id="6"></div>
+                </td>
+            </tr>
+            <tr>
+                <th class="letters">B</th>
+                <td>
+                    <div data-id="7"></div>
+                </td>
+                <td>
+                    <div data-id="8"></div>
+                </td>
+                <td>
+                    <div data-id="9"></div>
+                </td>
+                <td>
+                    <div data-id="10"></div>
+                </td>
+                <td>
+                    <div data-id="11"></div>
+                </td>
+                <td>
+                    <div data-id="12"></div>
+                </td>
+                <td>
+                    <div data-id="13"></div>
+                </td>
+            <tr>
+                <th class="letters">C</th>
+                <td>
+                    <div data-id="14"></div>
+                </td>
+                <td>
+                    <div data-id="15"></div>
+                </td>
+                <td>
+                    <div data-id="16"></div>
+                </td>
+                <td>
+                    <div data-id="17"></div>
+                </td>
+                <td>
+                    <div data-id="18"></div>
+                </td>
+                <td>
+                    <div data-id="19"></div>
+                </td>
+                <td>
+                    <div data-id="20"></div>
+                </td>
+            </tr>
+            <tr>
+                <th class="letters">D</th>
+                <td>
+                    <div data-id="21"></div>
+                </td>
+                <td>
+                    <div data-id="22"></div>
+                </td>
+                <td>
+                    <div data-id="23"></div>
+                </td>
+                <td>
+                    <div data-id="24"></div>
+                </td>
+                <td>
+                    <div data-id="25"></div>
+                </td>
+                <td>
+                    <div data-id="26"></div>
+                </td>
+                <td>
+                    <div data-id="27"></div>
+                </td>
+            </tr>
+            <tr>
+                <th class="letters">E</th>
+                <td>
+                    <div data-id="28"></div>
+                </td>
+                <td>
+                    <div data-id="29"></div>
+                </td>
+                <td>
+                    <div data-id="30"></div>
+                </td>
+                <td>
+                    <div data-id="31"></div>
+                </td>
+                <td>
+                    <div data-id="32"></div>
+                </td>
+                <td>
+                    <div data-id="33"></div>
+                </td>
+                <td>
+                    <div data-id="34"></div>
+                </td>
+            </tr>
+            <tr>
+                <th class="letters">F</th>
+                <td>
+                    <div data-id="35"></div>
+                </td>
+                <td>
+                    <div data-id="36"></div>
+                </td>
+                <td>
+                    <div data-id="37"></div>
+                </td>
+                <td>
+                    <div data-id="38"></div>
+                </td>
+                <td>
+                    <div data-id="39"></div>
+                </td>
+                <td>
+                    <div data-id="40"></div>
+                </td>
+                <td>
+                    <div data-id="41"></div>
+                </td>
+            </tr>
+            <tr>
+                <th class="letters">G</th>
+                <td>
+                    <div data-id="42"></div>
+                </td>
+                <td>
+                    <div data-id="43"></div>
+                </td>
+                <td>
+                    <div data-id="44"></div>
+                </td>
+                <td>
+                    <div data-id="45"></div>
+                </td>
+                <td>
+                    <div data-id="46"></div>
+                </td>
+                <td>
+                    <div data-id="47"></div>
+                </td>
+                <td>
+                    <div data-id="48"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</section>
