@@ -68,7 +68,7 @@ function startApp() {
             ctx.username = sessionStorage.getItem('username');
 
             ctx.loadPartials({
-                header: './templates/common/header.hbs',
+                header: '../../templates/common/header.hbs',
                 loginform: './templates/login/loginform.hbs',
                 footer: './templates/common/footer.hbs',
             }).then(function () {
@@ -97,11 +97,11 @@ function startApp() {
             ctx.username = sessionStorage.getItem('username');
 
             ctx.loadPartials({
-                header: './templates/common/header.hbs',
-                registerForm: './templates/register/registerform.hbs',
-                footer: './templates/common/footer.hbs',
+                header: '../templates/common/header.hbs',
+                registerForm: '../templates/register/registerform.hbs',
+                footer: '../templates/common/footer.hbs',
             }).then(function () {
-                this.partial('./templates/register/registerPage.hbs')
+                this.partial('../templates/register/registerPage.hbs')
             });
         }
 
