@@ -1,22 +1,16 @@
 let gameServices = (()=>{
 
-    function createMap(board, gameName) {
+    function createMap( board) {
 
-        //get last index number and increment for 
-        let gameIndex = getLastGameIndex() + 1;
-        
         let postData = {
-            'gameNumber': gameIndex,
-            'board': board,
-            'gameName' : gameName
+            gameNumber: '14',
+            board: board,
+            gameName: '#9999'
         };
 
         console.log(JSON.stringify(postData));
-
-        //turned that off. let get the object defined properly
-
-        // let endpoint = 'gameBoards';
-        // return requester.post('appdata', endpoint, 'Kinvey', JSON.stringify(postData));
+        let endpoint = 'gameBoards';
+        return requester.post('appdata', endpoint, 'Kinvey', postData);
     }
 
 

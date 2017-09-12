@@ -14,6 +14,7 @@ function startApp() {
         this.use('Handlebars', 'hbs');
 
         // HOME
+        this.get('index.html', displayHome);
         this.get('index.html', redirectToHome);
         this.get('#/home', displayHome);
 
@@ -29,11 +30,11 @@ function startApp() {
         //put this last!
         this.get('', redirectToHome);
 
+
         this.post('#/login', logInUser);
         this.post('#/register', registerUser);
-        //this.post('#/create-map', createNewMap);
 
-
+        
         function redirectToHome(ctx) {
             ctx.redirect('index.html#/home');
         }
@@ -90,6 +91,7 @@ function startApp() {
         }
 
 
+
         //REGISTER USER
         function displayRegisterForm(ctx) {
             ctx.isAnonymous = sessionStorage.getItem('username') === null;
@@ -122,6 +124,8 @@ function startApp() {
                     })
                     .catch(notifier.handleError);
             }
+
+
         }
 
         //LOGOUT USER
@@ -133,6 +137,7 @@ function startApp() {
                     ctx.redirect('#/home');
                 }).catch(auth.handleError);
         }
+
 
         function displayChooseMapForm(ctx) {
             ctx.isAnonymous = sessionStorage.getItem('username') === null;
@@ -158,17 +163,17 @@ function startApp() {
             });
         }
 
+
+
         //CREATE MAP
         function displayCreateMapForm(ctx) {
             ctx.isAnonymous = sessionStorage.getItem('username') === null;
             ctx.username = sessionStorage.getItem('username');
 
             ctx.loadPartials({
-                header: './templates/common/header.hbs',
-                footer: './templates/common/footer.hbs',
-                createMapForm: './templates/gameadmin/createmapform.hbs',
+                header: './templates/common/header.hbs'
             }).then(function () {
-                this.partial('./templates/gameadmin/createMapPage.hbs')
+                this.partial('./templates/gameadmin/createmapform.hbs')
                     .then(function () {
 
                         let fieldId = $('#board').find('div');
@@ -182,26 +187,23 @@ function startApp() {
                         function showId() {
                             counter++;
 
-                            if (counter < 10) {
+                            if(counter <10){
                                 let id = $(this).attr('data-id');
                                 $(this).addClass("hit");
 
                                 id = Number(id);
                                 let shipObj = {};
-                                shipObj[`${id.toString()}`] = 'ship';
 
+                                //add interval before id
+                                id = " " + id;
+                                shipObj[`${id}`] = 'ship';
                                 console.log(shipObj);
                                 coordinates.push(shipObj);
 
-                                //enable the save map button
-                                //check for name before actually saving.
-
-                            } else {
+                            }else{
                                 notifier.showError("You have reached the maximum cells allowed")
                             }
                         }
-
-                       
                         $('#createMapBtn').click(() => createMap(coordinates));
 
                     });
@@ -212,23 +214,30 @@ function startApp() {
                 let board = [];
 
 
-                for (let i = 0; i < coordinatesList.length; i += 3) {
+                for(let i = 0; i < coordinatesList.length; i+=3){
                     let coordinate = {};
                     coordinate['coordinates'] = [];
                     coordinate['coordinates'].push(coordinatesList[i]);
-                    coordinate['coordinates'].push(coordinatesList[i + 1]);
-                    coordinate['coordinates'].push(coordinatesList[i + 2]);
+                    coordinate['coordinates'].push(coordinatesList[i+1]);
+                    coordinate['coordinates'].push(coordinatesList[i+2]);
                     board.push(coordinate)
                 }
 
 
                 gameServices.createMap(board)
-                    .then(() => {
+                    .then(() =>{
                         notifier.showInfo('New Map Created');
                         ctx.redirect('#/home');
                     })
+
+
+
             }
+
         }
+
+
+
 
         function displayHallOfFame(ctx) {
             ctx.isAnonymous = sessionStorage.getItem('username') === null;

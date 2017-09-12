@@ -1,90 +1,68 @@
-<div class="container">
-    <div class="row">
-        <div class="container col-sm-offset-2 col-md-offset-2 col-lg-offset-2 col-sm-8 col-md-8 col-lg-8 game-menu-focus">
-            <h2>Create a new Map</h2>
-            <div>
-                <form class="form-inline" id="newMap" action="#/create-map" method="post">
-                    <div class="form-group">
-                        <label for="mapName">Map Name:</label>
-                        <input type="email" class="form-control" id="mapName">
-                    </div>
-                    <div class="form-group">
-                        <span type="button" id="createMapBtn" class="btn btn-success disabled">Create Map</span>
-                    </div>
-                </form>
-                <div>
-                    <p></p>
-                    <p class="text-warning">
-                        Click on the fields to add three ships, three cell each. Supply a name for your map, and save it for all to play!
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<p></p>
+{{> header}}
 
-<div id="board">
+<section id="section-game">
+    <div id="board">
+        <h2>Create a new Map</h2>
 
-    <table>
-        <tr>
-            <th class="numbers"></th>
-            <th class="numbers">0</th>
-            <th class="numbers">1</th>
-            <th class="numbers">2</th>
-            <th class="numbers">3</th>
-            <th class="numbers">4</th>
-            <th class="numbers">5</th>
-            <th class="numbers">6</th>
-        </tr>
+        <table>
+            <tr>
+                <th class="numbers"></th>
+                <th class="numbers">0</th>
+                <th class="numbers">1</th>
+                <th class="numbers">2</th>
+                <th class="numbers">3</th>
+                <th class="numbers">4</th>
+                <th class="numbers">5</th>
+                <th class="numbers">6</th>
+            </tr>
 
-        <tr>
-            <th class="letters">A</th>
-            <td>
-                <div data-id="0"></div>
-            </td>
-            <td>
-                <div data-id="1"></div>
-            </td>
-            <td>
-                <div data-id="2"></div>
-            </td>
-            <td>
-                <div data-id="3"></div>
-            </td>
-            <td>
-                <div data-id="4"></div>
-            </td>
-            <td>
-                <div data-id="5"></div>
-            </td>
-            <td>
-                <div data-id="6"></div>
-            </td>
-        </tr>
-        <tr>
-            <th class="letters">B</th>
-            <td>
-                <div data-id="7"></div>
-            </td>
-            <td>
-                <div data-id="8"></div>
-            </td>
-            <td>
-                <div data-id="9"></div>
-            </td>
-            <td>
-                <div data-id="10"></div>
-            </td>
-            <td>
-                <div data-id="11"></div>
-            </td>
-            <td>
-                <div data-id="12"></div>
-            </td>
-            <td>
-                <div data-id="13"></div>
-            </td>
+            <tr>
+                <th class="letters">A</th>
+                <td>
+                    <div data-id="0"></div>
+                </td>
+                <td>
+                    <div data-id="1"></div>
+                </td>
+                <td>
+                    <div data-id="2"></div>
+                </td>
+                <td>
+                    <div data-id="3"></div>
+                </td>
+                <td>
+                    <div data-id="4"></div>
+                </td>
+                <td>
+                    <div data-id="5"></div>
+                </td>
+                <td>
+                    <div data-id="6"></div>
+                </td>
+            </tr>
+            <tr>
+                <th class="letters">B</th>
+                <td>
+                    <div data-id="7"></div>
+                </td>
+                <td>
+                    <div data-id="8"></div>
+                </td>
+                <td>
+                    <div data-id="9"></div>
+                </td>
+                <td>
+                    <div data-id="10"></div>
+                </td>
+                <td>
+                    <div data-id="11"></div>
+                </td>
+                <td>
+                    <div data-id="12"></div>
+                </td>
+                <td>
+                    <div data-id="13"></div>
+                </td>
             <tr>
                 <th class="letters">C</th>
                 <td>
@@ -205,6 +183,7 @@
                     <div data-id="48"></div>
                 </td>
             </tr>
-    </table>
-
-</div>
+        </table>
+        <button type="button" id="createMapBtn" class="btn btn-success btn-lg  pull-right create" >Create Map</button>
+    </div>
+</section>
