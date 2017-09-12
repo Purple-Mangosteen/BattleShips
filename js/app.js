@@ -34,7 +34,7 @@ function startApp() {
         this.post('#/login', logInUser);
         this.post('#/register', registerUser);
 
-        
+
         function redirectToHome(ctx) {
             ctx.redirect('index.html#/home');
         }
@@ -47,8 +47,7 @@ function startApp() {
 
             requester.get('appdata', 'gameBoards/_count', 'Master')
                 .then(function (count) {
-                    console.log(count['count']);
-                    ctx.gameCount = count['count'];
+                                        ctx.gameCount = count['count'];
 
                     ctx.loadPartials({
                         header: './templates/common/header.hbs',
@@ -89,7 +88,6 @@ function startApp() {
                 })
                 .catch(notifier.handleError);
         }
-
 
 
         //REGISTER USER
@@ -164,7 +162,6 @@ function startApp() {
         }
 
 
-
         //CREATE MAP
         function displayCreateMapForm(ctx) {
             ctx.isAnonymous = sessionStorage.getItem('username') === null;
@@ -178,48 +175,49 @@ function startApp() {
 
                         //get the last map
                         gameServices.getTheLastMap()
-                            .then((mapinfo) =>{
+                            .then((mapinfo) => {
 
-                            let previousGameNumber =0;
-                            if (mapinfo.length ===0 ){
+                                let previousGameNumber = 0;
+                                if (mapinfo.length === 0) {
 
-                            }else{
-                            previousGameNumber = Number(mapinfo[0]['gameNumber']);
-                            }
+                                } else {
+                                    previousGameNumber = Number(mapinfo[0]['gameNumber']);
+                                }
 
-                            let gameNumber = previousGameNumber +1;
-                            let gameName = `#Map:${gameNumber}`;
+                                let gameNumber = previousGameNumber + 1;
+                                let gameName = `#Map:${gameNumber}`;
 
 
-                        let fieldId = $('#board').find('div');
+                                let fieldId = $('#board').find('div');
 
-                        fieldId.click(showId);
+                                fieldId.click(showId);
 
-                        let coordinates = [];
+                                let coordinates = [];
 
-                        let counter = 0;
+                                let counter = 0;
 
-                        function showId() {
-                            counter++;
+                                function showId() {
+                                    counter++;
 
-                            if(counter <10){
-                                let id = $(this).attr('data-id');
-                                $(this).addClass("hit");
+                                    if (counter < 10) {
+                                        let id = $(this).attr('data-id');
+                                        $(this).addClass("hit");
 
-                                id = Number(id);
-                                let shipObj = {};
+                                        id = Number(id);
+                                        let shipObj = {};
 
-                                id = "" + id;
-                                shipObj[`${id}`] = 'ship';
-                                shipObj.g = 'g';
-                              //  console.log(shipObj);
-                                coordinates.push(shipObj);
+                                        id = "" + id;
+                                        shipObj[`${id}`] = 'ship';
+                                        shipObj.g = 'g';
+                                        //  console.log(shipObj);
+                                        coordinates.push(shipObj);
 
-                            }else{
-                                notifier.showError("You have reached the maximum cells allowed")
-                            }
-                        }
-                        $('#createMapBtn').click(() => createMap(coordinates, gameNumber, gameName));
+                                    } else {
+                                        notifier.showError("You have reached the maximum cells allowed")
+                                    }
+                                }
+
+                                $('#createMapBtn').click(() => createMap(coordinates, gameNumber, gameName));
 
                             });
                     });
@@ -228,35 +226,32 @@ function startApp() {
             function createMap(coordinatesList, gameNumber, gameName) {
 
 
-                if (coordinatesList.length ===9){
+                if (coordinatesList.length === 9) {
                     let board = [];
 
-                    for(let i = 0; i < coordinatesList.length; i+=3){
+                    for (let i = 0; i < coordinatesList.length; i += 3) {
                         let coordinate = {};
                         coordinate['coordinates'] = [];
                         coordinate['coordinates'].push(coordinatesList[i]);
-                        coordinate['coordinates'].push(coordinatesList[i+1]);
-                        coordinate['coordinates'].push(coordinatesList[i+2]);
+                        coordinate['coordinates'].push(coordinatesList[i + 1]);
+                        coordinate['coordinates'].push(coordinatesList[i + 2]);
                         board.push(coordinate)
                     }
 
-                    gameServices.createMap(board , gameNumber, gameName)
-                        .then(() =>{
+                    gameServices.createMap(board, gameNumber, gameName)
+                        .then(() => {
                             notifier.showInfo('New Map Created');
                             ctx.redirect('#/home');
                         })
 
-                }else {
+                } else {
                     notifier.showError("Please select 9 cells")
                 }
-
 
 
             }
 
         }
-
-
 
 
         function displayHallOfFame(ctx) {
@@ -268,19 +263,52 @@ function startApp() {
             //?query={}&limit=20&skip=20
             //?query={}&limit=20&skip=40
 
-            requester.get('user', '?query={}&sort={"totalScore": -1,"gamesPLayed":-1}&limit=10', '')
-                .then(function (results) {
-                    ctx.results = results;
+            requester.get('appdata', 'gamesPlayed', '')
+                .then(function (resultsData) {
+                    let winners = new Map();
+                    for (let result of resultsData) {
+                        if (result.gameFinished === 'true') {
+                            if (!winners.has(result.userId)) {
+                                winners.set(result.userId, {score: 0, maps: 0})
+                            }
+                            let participant = winners.get(result.userId);
+                            participant.score += Number(result.score);
+                            participant.maps++;
 
-                    console.log(ctx.results);
+                            winners.set(result.userId, participant);
+                        }
+                    }
 
-                    ctx.loadPartials({
-                        header: './templates/common/header.hbs',
-                        footer: './templates/common/footer.hbs',
-                        highScoresList: './templates/gameresults/highScoresList.hbs'
-                    }).then(function () {
-                        this.partial('./templates/gameresults/halloffamePage.hbs');
-                    });
+                    let results = [];
+                    for (let player of winners) {
+                        results.push({username: player[0], totalScore: player[1].score, gamesPlayed: player[1].maps});
+                    }
+                    for (let userData of results) {
+                        requester.get('user', `?query={"_id":"${userData.username}"}`, '').then((userDetails) => {
+                            userData.username = userDetails[0].username;
+                        }).then(() => {
+
+                            results.sort(function(a, b) {
+                                if(Number(b.totalScore)===Number(a.totalScore)){
+                                    return Number(b.maps) -  Number(a.maps);
+                                }
+                               return Number(b.totalScore) -  Number(a.totalScore);
+
+                            });
+                            ctx.results = results;
+                            ctx.loadPartials({
+                                header: './templates/common/header.hbs',
+                                footer: './templates/common/footer.hbs',
+                                highScoresList: './templates/gameresults/highScoresList.hbs'
+                            }).then(function () {
+                                this.partial('./templates/gameresults/halloffamePage.hbs');
+                            });
+
+                        });
+                    }
+
+// here
+
                 }).catch(notifier.handleError);
         }
 
