@@ -9,8 +9,9 @@ function startApp() {
 
 
     //INITIALIZE SAMMY AND HANDLEBARS
-    const app = Sammy('#pagebody', function () {
 
+    const app = Sammy('#pagebody', function () {
+        
         this.use('Handlebars', 'hbs');
 
         // HOME
@@ -50,11 +51,11 @@ function startApp() {
                                         ctx.gameCount = count['count'];
 
                     ctx.loadPartials({
-                        header: './templates/common/header.hbs',
-                        footer: './templates/common/footer.hbs',
-                        home: './templates/home/home.hbs'
+                        header: '../templates/common/header.hbs',
+                        footer: '../templates/common/footer.hbs',
+                        home: '../templates/home/home.hbs'
                     }).then(function () {
-                        this.partial('./templates/home/homePage.hbs');
+                        this.partial('../templates/home/homePage.hbs');
                     });
 
                 }).catch(notifier.handleError);
