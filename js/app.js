@@ -20,7 +20,7 @@ function startApp() {
         this.get('#/login', displayLoginForm);
         this.get('#/register', displayRegisterForm);
         this.get('#/logout', logOutUser);
-        this.get('#/choose-map', displayChooseMapForm);
+        this.get('#/choose-map', displayChooseMap);
         this.get('#/play', displayGameBoard); //possibly '#play/:id'  where id is the id of the map
         this.get('#/create-map', displayCreateMapForm);
         this.get('#/hall-of-fame', displayHallOfFame);
@@ -31,9 +31,7 @@ function startApp() {
         this.post('#/register', registerUser);
 
 
-
         function displayHome(ctx) {
-
             ctx.isAnonymous = sessionStorage.getItem('username') === null;
             ctx.username = sessionStorage.getItem('username');
 
@@ -74,7 +72,6 @@ function startApp() {
         }
 
 
-
         //REGISTER USER
         function displayRegisterForm(ctx) {
             ctx.isAnonymous = sessionStorage.getItem('username') === null;
@@ -106,8 +103,6 @@ function startApp() {
                     })
                     .catch(notifier.handleError);
             }
-
-
         }
 
         //LOGOUT USER
@@ -120,16 +115,58 @@ function startApp() {
                 }).catch(auth.handleError);
         }
 
-
-        function displayChooseMapForm(ctx) {
+        function displayChooseMap(ctx) {
             ctx.isAnonymous = sessionStorage.getItem('username') === null;
             ctx.username = sessionStorage.getItem('username');
+            let userId = sessionStorage.getItem('userId');
+            requester.get('appdata', `gamesPlayed?query={"userId":"${userId}"}`, '')
+                .then(function (userData) {
+                    requester.get('appdata', `gameBoards`, '').then(boards => {
+                        ctx.choseMapData = [];
+                        console.log(userData);
+                        for (let board of boards) {
+                            let score = 0;
+                            let gameFinished = false;
+                            for (let row of userData) {
+                                if (row.gameId !== board._id) {
+                                    continue;
+                                }
+                                score = row.score > score ? row.score : score;
 
-            ctx.loadPartials({
-                header: './templates/common/header.hbs',
-            }).then(function () {
-                this.partial('./templates/gameplay/chosegame.hbs');
-            });
+                                if (row.gameFinished === true) {
+                                    gameFinished = true;
+                                }
+                            }
+
+                            let boardObj = {
+                                gameNumber  : board.gameNumber,
+                                gameName    : board.gameName,
+                                timesPlayed : board.timesPlayed,
+                                score       : score,
+                                gameFinished: gameFinished
+                            };
+
+                            if (typeof board.gameNumber !== 'undefined' &&
+                                parseInt(board.gameNumber) > 0 &&
+                                typeof ctx.choseMapData[parseInt(board.gameNumber)] === 'undefined'
+                            ) {
+                                ctx.choseMapData[parseInt(board.gameNumber)] = boardObj;
+                            }
+                            else {
+                                ctx.choseMapData.push(boardObj);
+                            }
+                            console.log(board);
+                        }
+                        console.log(ctx.choseMapData);
+
+                        ctx.loadPartials({
+                            header: './templates/common/header.hbs',
+                        }).then(function () {
+                            this.partial('./templates/gameplay/chosegame.hbs');
+                        });
+                    })
+                }).catch(notifier.handleError);
+
         }
 
         function displayGameBoard(ctx) {
@@ -193,5 +230,3 @@ function startApp() {
 
     app.run();
 }
-
-// master
