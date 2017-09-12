@@ -7,6 +7,12 @@ function startApp() {
     $('#infoBox').click((e) => $(e.target).hide());
     $('#errorBox').click((e) => $(e.target).hide());
 
+    const prefix = '/BattleShips';
+    //const prefix = '';
+
+    let whereAmI = window.location;
+    console.log(whereAmI);
+    console.log(whereAmI.hostname);
 
     //INITIALIZE SAMMY AND HANDLEBARS
 
@@ -36,9 +42,7 @@ function startApp() {
         this.post('#/register', registerUser);
 
 
-        function redirectToHome(ctx) {
-            let prefix='/BattleShips';
-            //let prefix='';
+        function redirectToHome(ctx) {            
             ctx.redirect(prefix+'/index.html#/home');
         }
 
@@ -53,11 +57,11 @@ function startApp() {
                     ctx.gameCount = count['count'];
 
                     ctx.loadPartials({
-                        header: '/BattleShips/templates/common/header.hbs',
-                        footer: '../templates/common/footer.hbs',
-                        home: '../templates/home/home.hbs'
+                        header: prefix+'/templates/common/header.hbs',
+                        footer: prefix+'/templates/common/footer.hbs',
+                        home: prefix+'/templates/home/home.hbs'
                     }).then(function () {
-                        this.partial('../templates/home/homePage.hbs');
+                        this.partial(prefix+'/templates/home/homePage.hbs');
                     });
 
                 }).catch(notifier.handleError);
