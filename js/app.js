@@ -15,7 +15,7 @@ function startApp() {
         this.use('Handlebars', 'hbs');
 
         // HOME
-        this.get('index.html', redirectToHome);
+        this.get('index.html', displayHome);
         this.get('index.html/#home', displayHome);
         this.get('#/home', displayHome);
 
@@ -51,11 +51,11 @@ function startApp() {
                     ctx.gameCount = count['count'];
 
                     ctx.loadPartials({
-                        header: '../templates/common/header.hbs',
-                        footer: '../templates/common/footer.hbs',
-                        home: '../templates/home/home.hbs'
+                        header: 'templates/common/header.hbs',
+                        footer: 'templates/common/footer.hbs',
+                        home: 'templates/home/home.hbs'
                     }).then(function () {
-                        this.partial('.../templates/home/homePage.hbs');
+                        this.partial('templates/home/homePage.hbs');
                     });
 
                 }).catch(notifier.handleError);
@@ -68,11 +68,11 @@ function startApp() {
             ctx.username = sessionStorage.getItem('username');
 
             ctx.loadPartials({
-                header: '../templates/common/header.hbs',
-                loginform: '../templates/login/loginform.hbs',
-                footer: '../templates/common/footer.hbs',
+                header: 'templates/common/header.hbs',
+                loginform: 'templates/login/loginform.hbs',
+                footer: 'templates/common/footer.hbs',
             }).then(function () {
-                this.partial('../templates/login/loginPage.hbs');
+                this.partial('templates/login/loginPage.hbs');
             });
         }
 
