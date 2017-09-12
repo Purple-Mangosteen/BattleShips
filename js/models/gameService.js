@@ -1,24 +1,32 @@
 let gameServices = (()=>{
 
-    function createMap( board) {
+    function createMap( board , gameNumber, gameName) {
 
         let postData = {
-            gameNumber: '14',
+            gameNumber: gameNumber,
             board: board,
-            gameName: '#9999'
+            gameName: gameName
         };
 
-        console.log(JSON.stringify(postData));
+       // console.log(JSON.stringify(postData));
         let endpoint = 'gameBoards';
         return requester.post('appdata', endpoint, 'Kinvey', postData);
     }
 
 
+    function getTheLastMap() {
+
+        let  endpoint = 'gameBoards?query={}&sort={"gameNumber": -1}&limit=1';
+
+       return requester.get('appdata', endpoint, 'Kinvey')
+
+    }
 
 
 
     return{
         createMap,
+        getTheLastMap
     }
 
 })();

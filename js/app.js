@@ -175,6 +175,15 @@ function startApp() {
             }).then(function () {
                 this.partial('./templates/gameadmin/createmapform.hbs')
                     .then(function () {
+                        //get the last map
+                        gameServices.getTheLastMap()
+                            .then((mapinfo) =>{
+                           let previousGameNumber = Number(mapinfo[0]['gameNumber']);
+
+                        let gameNumber = 0;
+                        gameNumber = previousGameNumber +1;
+                        let gameName = `#Map:${gameNumber}`;
+
 
                         let fieldId = $('#board').find('div');
 
@@ -194,41 +203,46 @@ function startApp() {
                                 id = Number(id);
                                 let shipObj = {};
 
-                                //add interval before id
-                                id = " " + id;
+                                id = "" + id;
                                 shipObj[`${id}`] = 'ship';
-                                console.log(shipObj);
+                                shipObj.g = 'g';
+                              //  console.log(shipObj);
                                 coordinates.push(shipObj);
 
                             }else{
                                 notifier.showError("You have reached the maximum cells allowed")
                             }
                         }
-                        $('#createMapBtn').click(() => createMap(coordinates));
+                        $('#createMapBtn').click(() => createMap(coordinates, gameNumber, gameName));
 
+                            });
                     });
             });
 
-            function createMap(coordinatesList) {
-
-                let board = [];
+            function createMap(coordinatesList, gameNumber, gameName) {
 
 
-                for(let i = 0; i < coordinatesList.length; i+=3){
-                    let coordinate = {};
-                    coordinate['coordinates'] = [];
-                    coordinate['coordinates'].push(coordinatesList[i]);
-                    coordinate['coordinates'].push(coordinatesList[i+1]);
-                    coordinate['coordinates'].push(coordinatesList[i+2]);
-                    board.push(coordinate)
+                if (coordinatesList.length ===9){
+                    let board = [];
+
+                    for(let i = 0; i < coordinatesList.length; i+=3){
+                        let coordinate = {};
+                        coordinate['coordinates'] = [];
+                        coordinate['coordinates'].push(coordinatesList[i]);
+                        coordinate['coordinates'].push(coordinatesList[i+1]);
+                        coordinate['coordinates'].push(coordinatesList[i+2]);
+                        board.push(coordinate)
+                    }
+
+                    gameServices.createMap(board , gameNumber, gameName)
+                        .then(() =>{
+                            notifier.showInfo('New Map Created');
+                            ctx.redirect('#/home');
+                        })
+
+                }else {
+                    notifier.showError("Please select 9 cells")
                 }
-
-
-                gameServices.createMap(board)
-                    .then(() =>{
-                        notifier.showInfo('New Map Created');
-                        ctx.redirect('#/home');
-                    })
 
 
 
