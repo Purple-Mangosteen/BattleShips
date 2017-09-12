@@ -47,7 +47,7 @@ function startApp() {
 
             requester.get('appdata', 'gameBoards/_count', 'Master')
                 .then(function (count) {
-                                        ctx.gameCount = count['count'];
+                    ctx.gameCount = count['count'];
 
                     ctx.loadPartials({
                         header: './templates/common/header.hbs',
@@ -283,16 +283,19 @@ function startApp() {
                     for (let player of winners) {
                         results.push({username: player[0], totalScore: player[1].score, gamesPlayed: player[1].maps});
                     }
+
+                    // top 10
+                    results = results.slice(0, 10);
                     for (let userData of results) {
                         requester.get('user', `?query={"_id":"${userData.username}"}`, '').then((userDetails) => {
                             userData.username = userDetails[0].username;
                         }).then(() => {
 
-                            results.sort(function(a, b) {
-                                if(Number(b.totalScore)===Number(a.totalScore)){
-                                    return Number(b.maps) -  Number(a.maps);
+                            results.sort(function (a, b) {
+                                if (Number(b.totalScore) === Number(a.totalScore)) {
+                                    return Number(b.maps) - Number(a.maps);
                                 }
-                               return Number(b.totalScore) -  Number(a.totalScore);
+                                return Number(b.totalScore) - Number(a.totalScore);
 
                             });
                             ctx.results = results;
