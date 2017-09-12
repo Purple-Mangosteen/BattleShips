@@ -51,11 +51,11 @@ function startApp() {
                     ctx.gameCount = count['count'];
 
                     ctx.loadPartials({
-                        header: '/templates/common/header.hbs',
-                        footer: '/templates/common/footer.hbs',
-                        home: '/templates/home/home.hbs'
+                        header: '/battleship/templates/common/header.hbs',
+                        footer: '/battleship/templates/common/footer.hbs',
+                        home: '/battleship/templates/home/home.hbs'
                     }).then(function () {
-                        this.partial('/templates/home/homePage.hbs');
+                        this.partial('/battleship/templates/home/homePage.hbs');
                     });
 
                 }).catch(notifier.handleError);
