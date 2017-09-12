@@ -175,14 +175,20 @@ function startApp() {
             }).then(function () {
                 this.partial('./templates/gameadmin/createmapform.hbs')
                     .then(function () {
+
                         //get the last map
                         gameServices.getTheLastMap()
                             .then((mapinfo) =>{
-                           let previousGameNumber = Number(mapinfo[0]['gameNumber']);
 
-                        let gameNumber = 0;
-                        gameNumber = previousGameNumber +1;
-                        let gameName = `#Map:${gameNumber}`;
+                            let previousGameNumber =0;
+                            if (mapinfo.length ===0 ){
+
+                            }else{
+                            previousGameNumber = Number(mapinfo[0]['gameNumber']);
+                            }
+
+                            let gameNumber = previousGameNumber +1;
+                            let gameName = `#Map:${gameNumber}`;
 
 
                         let fieldId = $('#board').find('div');
