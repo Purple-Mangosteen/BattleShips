@@ -14,8 +14,8 @@ function startApp() {
         this.use('Handlebars', 'hbs');
 
         // HOME
-        this.get('index.html', displayHome);
         this.get('index.html', redirectToHome);
+        //this.get('index.html/#home', displayHome);
         this.get('#/home', displayHome);
 
         this.get('#/login', displayLoginForm);
