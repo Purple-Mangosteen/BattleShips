@@ -36,73 +36,81 @@ let playground = (() => {
         }
     };
 
-    function init() {
+    function init(mapId=null) {
+        // if there is no mapId or map id is empty string
+        if (mapId === null || mapId === '') {
+            requester.get('appdata', 'gameBoards', '').then((boardsInfo) => {
 
-        // gets all maps from database
-        requester.get('appdata', 'gameBoards', '').then((boardsInfo) => {
+                // gets the maps the user has played
+                requester.get('appdata', `gamesPlayed?query={"userId":"${sessionStorage.getItem('userId')}"}`, '').then((playedMapsInfo) => {
 
-            // gets the maps the user has played
-            requester.get('appdata', `gamesPlayed?query={"userId":"${sessionStorage.getItem('userId')}"}`, '').then((playedMapsInfo) => {
+                    // all maps that has been started or completed
+                    let mapsStarted = [];
+                    let mapsAvailable = false;
 
-                // all maps that has been started or completed
-                let mapsStarted = [];
-                let mapsAvailable = false;
-
-                for (let map of playedMapsInfo) {
-                    mapsStarted.push(map.gameId);
-                }
-
-                // loops through all the maps and picks the first not started
-                for (let board of boardsInfo) {
-
-                    // if the map has not been started yet it is loaded
-                    if (!mapsStarted.includes(board._id)) {
-                        sessionStorage.setItem('boardId', board._id);
-                        // MAP INITIALIZATION
-                        let historyData = {
-                            gameId: board._id,
-                            userId: sessionStorage.getItem('userId'),
-                            score: 40,
-                            boardProgress: model.history
-                        };
-
-                        requester.post('appdata', 'gamesPlayed', '', historyData).then((req) => {
-                            sessionStorage.setItem('historyId', req._id);
-                        });
-
-
-                        mapsAvailable = true;
-
-                        // get ships location from the database
-                        requester.get('appdata', 'gameBoards/' + board._id, '').then((mapInfo) => {
-                            for (let i = 0; i < mapInfo.board.length; i++) {
-                                let ship = {hits: 0, coordinates: mapInfo.board[i].coordinates};
-                                model.ships.push(ship);
-                            }
-                        });
-
-                        // hides game start button
-                        $('#game-init-button').hide();
-
-                        console.log('game initialization...');
-
-                        // attach click event listener to each field
-                        let battleBlocks = $('td');
-                        for (let block of battleBlocks) {
-                            $(block).on('click', shoot);
-                        }
-                        view.displayMessage("Let's play! There are 3 ships, each 3 cells long");
-                        break;
+                    for (let map of playedMapsInfo) {
+                        mapsStarted.push(map.gameId);
                     }
-                }
 
-                // if all maps has been played, game cannot start.
-                if (!mapsAvailable) {
-                    view.displayMessage("You have played all available maps!");
-                }
+                    // loops through all the maps and picks the first not started
+                    for (let board of boardsInfo) {
+
+                        // if the map has not been started yet it is loaded
+                        if (!mapsStarted.includes(board._id)) {
+                            gameStart(board._id);
+                            break;
+                        }
+                    }
+
+                    // if all maps has been played, game cannot start.
+                    if (!mapsAvailable) {
+                        view.displayMessage("You have played all available maps!");
+                    }
+                });
             });
+        } else {
+            gameStart(mapId);
+        }
+
+
+    }
+
+    function gameStart(boardId) {
+        console.log('map',boardId)
+        sessionStorage.setItem('boardId', boardId);
+        // MAP INITIALIZATION
+        let historyData = {
+            gameId: boardId,
+            userId: sessionStorage.getItem('userId'),
+            score: 40,
+            boardProgress: model.history
+        };
+
+        requester.post('appdata', 'gamesPlayed', '', historyData).then((req) => {
+            sessionStorage.setItem('historyId', req._id);
         });
 
+        mapsAvailable = true;
+
+        // get ships location from the database
+        requester.get('appdata', 'gameBoards/' + boardId, '').then((mapInfo) => {
+            for (let i = 0; i < mapInfo.board.length; i++) {
+                let ship = {hits: 0, coordinates: mapInfo.board[i].coordinates};
+                model.ships.push(ship);
+            }
+        });
+
+        // hides game start button
+        $('#game-init-button').hide();
+
+        console.log('game initialization...');
+
+        // attach click event listener to each field
+        let battleBlocks = $('td');
+        for (let block of battleBlocks) {
+            $(block).on('click', shoot);
+        }
+        view.displayMessage("Let's play! There are 3 ships, each 3 cells long");
 
     }
 
@@ -146,16 +154,15 @@ let playground = (() => {
             userId: sessionStorage.getItem('userId'),
             score: model.points,
             boardProgress: model.history,
-            gameFinished : false
+            gameStarted : false
         };
 
         if (model.score === gameWinScore) {
-            historyData.gameFinished = true;
+            historyData.gameStarted = true;
         }
 
         requester.update('appdata', 'gamesPlayed/' + sessionStorage.getItem('historyId'), '', historyData).then((data) => {
             console.log('move saved');
-
         });
 
         // disable further clicks on this item
