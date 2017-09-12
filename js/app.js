@@ -290,7 +290,6 @@ function startApp() {
                         requester.get('user', `?query={"_id":"${userData.username}"}`, '').then((userDetails) => {
                             userData.username = userDetails[0].username;
                         }).then(() => {
-
                             results.sort(function (a, b) {
                                 if (Number(b.totalScore) === Number(a.totalScore)) {
                                     return Number(b.maps) - Number(a.maps);
