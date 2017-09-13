@@ -77,11 +77,11 @@ function startApp() {
             ctx.username = sessionStorage.getItem('username');
 
             ctx.loadPartials({
-                header: './../templates/common/header.hbs',
-                loginform: './../templates/login/loginform.hbs',
-                footer: './../templates/common/footer.hbs',
+                header: 'templates/common/header.hbs',
+                loginform: 'templates/login/loginform.hbs',
+                footer: 'templates/common/footer.hbs',
             }).then(function () {
-                this.partial('./../templates/login/loginPage.hbs');
+                this.partial('templates/login/loginPage.hbs');
             });
         }
 
@@ -105,11 +105,11 @@ function startApp() {
             ctx.username = sessionStorage.getItem('username');
 
             ctx.loadPartials({
-                header: '../templates/common/header.hbs',
-                registerForm: '../templates/register/registerform.hbs',
-                footer: '../templates/common/footer.hbs',
+                header: 'templates/common/header.hbs',
+                registerForm: 'templates/register/registerform.hbs',
+                footer: 'templates/common/footer.hbs',
             }).then(function () {
-                this.partial('../templates/register/registerPage.hbs')
+                this.partial('templates/register/registerPage.hbs')
             });
         }
 
@@ -211,10 +211,10 @@ function startApp() {
                         }
 
                         ctx.loadPartials({
-                            header: './templates/common/header.hbs',
-                            footer: './templates/common/footer.hbs',
+                            header: 'templates/common/header.hbs',
+                            footer: 'templates/common/footer.hbs',
                         }).then(function () {
-                            this.partial('./templates/gameplay/chosegame.hbs');
+                            this.partial('templates/gameplay/chosegame.hbs');
                         });
                     })
                 }).catch(notifier.handleError);
@@ -231,8 +231,8 @@ function startApp() {
             }
 
             ctx.loadPartials({
-                header: './templates/common/header.hbs',
-                footer: './templates/common/footer.hbs',
+                header: 'templates/common/header.hbs',
+                footer: 'templates/common/footer.hbs',
             }).then(function () {
                 this.partial('./templates/gameplay/gameboard.hbs');
             });
@@ -244,9 +244,9 @@ function startApp() {
             ctx.username = sessionStorage.getItem('username');
 
             ctx.loadPartials({
-                header: './templates/common/header.hbs'
+                header: 'templates/common/header.hbs'
             }).then(function () {
-                this.partial('./templates/gameadmin/createmapform.hbs')
+                this.partial('templates/gameadmin/createmapform.hbs')
                     .then(function () {
 
                         //get the last map
