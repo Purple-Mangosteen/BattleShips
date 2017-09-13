@@ -252,7 +252,7 @@ function startApp() {
                                 }
 
                                 let gameNumber = previousGameNumber + 1;
-                                let gameName = `#Map:${gameNumber}`;
+                                let gameName = `Map:#${gameNumber}`;
 
 
                                 let fieldId = $('#board').find('div');
@@ -315,7 +315,6 @@ function startApp() {
                     notifier.showError("Please select 9 cells")
                 }
 
-
             }
 
         }
@@ -331,27 +330,38 @@ function startApp() {
 
             requester.get('appdata', 'gamesPlayed', '')
                 .then(function (resultsData) {
-                    let winners = new Map();
-                    for (let result of resultsData) {
-                        if (result.gameStarted === 'true') {
-                            if (!winners.has(result.userId)) {
-                                winners.set(result.userId, {score: 0, maps: 0})
-                            }
-                            let participant = winners.get(result.userId);
-                            participant.score += Number(result.score);
-                            participant.maps++;
-
-                            winners.set(result.userId, participant);
-                        }
-                    }
-
                     let results = [];
-                    for (let player of winners) {
-                        results.push({username: player[0], totalScore: player[1].score, gamesPlayed: player[1].maps});
-                    }
 
-                    // top 10
-                    results = results.slice(0, 10);
+                    if(resultsData.length ===0){
+                        ctx.loadPartials({
+                            header: './templates/common/header.hbs',
+                            footer: './templates/common/footer.hbs',
+                            highScoresList: './templates/gameresults/highScoresList.hbs'
+                        }).then(function () {
+                            this.partial('./templates/gameresults/halloffamePage.hbs');
+                        });
+                    }else{
+                        let winners = new Map();
+                        for (let result of resultsData) {
+                            if (result.gameStarted === 'true') {
+                                if (!winners.has(result.userId)) {
+                                    winners.set(result.userId, {score: 0, maps: 0})
+                                }
+                                let participant = winners.get(result.userId);
+                                participant.score += Number(result.score);
+                                participant.maps++;
+
+                                winners.set(result.userId, participant);
+                            }
+                        }
+
+                        for (let player of winners) {
+                            results.push({username: player[0], totalScore: player[1].score, gamesPlayed: player[1].maps});
+                        }
+
+                        // top 10
+                        results = results.slice(0, 10);
+
                     for (let userData of results) {
                         requester.get('user', `?query={"_id":"${userData.username}"}`, '').then((userDetails) => {
                             userData.username = userDetails[0].username;
@@ -374,8 +384,7 @@ function startApp() {
 
                         });
                     }
-
-// here
+                 }
 
                 }).catch(notifier.handleError);
         }
