@@ -28,8 +28,9 @@ function startApp() {
         this.get('#/login', displayLoginForm);
         this.get('#/register', displayRegisterForm);
         this.get('#/logout', logOutUser);
-        this.get('#/choose-map', displayChooseMapForm);
-        this.get('#/play', displayGameBoard); //possibly '#play/:id'  where id is the id of the map
+        this.get('#/choose-map', displayChooseMap);
+        this.get('#/play/:id', displayGameBoard); //possibly '#play/:id'  where id is the id of the map
+        this.get('#/play(/)?', displayGameBoard); // i know its a hack but ..
         this.get('#/create-map', displayCreateMapForm);
         this.get('#/hall-of-fame', displayHallOfFame);
         this.get('#/how-to-play', displayHowToPlay);
@@ -67,7 +68,6 @@ function startApp() {
                 }).catch(notifier.handleError);
         }
 
-
         //LOGIN USER
         function displayLoginForm(ctx) {
             ctx.isAnonymous = sessionStorage.getItem('username') === null;
@@ -95,7 +95,6 @@ function startApp() {
                 })
                 .catch(notifier.handleError);
         }
-
 
         //REGISTER USER
         function displayRegisterForm(ctx) {
@@ -142,23 +141,91 @@ function startApp() {
                     ctx.redirect('#/home');
                 }).catch(auth.handleError);
         }
-
-
-        function displayChooseMapForm(ctx) {
+        // select map
+        function displayChooseMap(ctx) {
             ctx.isAnonymous = sessionStorage.getItem('username') === null;
             ctx.username = sessionStorage.getItem('username');
+            let userId = sessionStorage.getItem('userId');
+            requester.get('appdata', `gamesPlayed?query={"userId":"${userId}"}`, '')
+                .then(function (userData) {
+                    requester.get('appdata', `gameBoards`, '').then(boards => {
+                        ctx.choseMapData = [];
+                        //
+                        // all maps that has been started or completed
+                        let mapsStarted = [];
 
-            ctx.loadPartials({
-                header: './templates/common/header.hbs',
-                footer: './templates/common/footer.hbs',
-            }).then(function () {
-                this.partial('./templates/gameplay/chosegame.hbs');
-            });
+                        for (let map of userData) {
+                            mapsStarted.push(map.gameId);
+                        }
+
+
+                        //
+                        for (let board of boards) {
+                            let score = 0;
+                            let gameFinished = false;
+                            let boardMissCount = 0;
+                            let boardHitCount = 0;
+                            for (let row of userData) {
+                                if (row.gameId !== board._id) {
+                                    continue;
+                                }
+                                score = row.score > score ? row.score : score;
+
+                                for (let item of row.boardProgress) {
+                                    if (item === 'miss') {
+                                        boardMissCount++;
+                                    }
+                                    if (item === 'hit') {
+                                        boardHitCount++;
+                                    }
+                                }
+                                if (row.gameStarted === true) {
+                                    gameFinished = true;
+                                }
+                            }
+                            console.log('miss', boardMissCount);
+                            console.log('hit',boardHitCount);
+                            let boardObj = {
+                                id          : board._id,
+                                gameNumber  : board.gameNumber,
+                                gameName    : board.gameName,
+                                timesPlayed : board.timesPlayed,
+                                score       : score,
+                                hits        : boardHitCount,
+                                gameStarted : mapsStarted.includes(board._id),
+                                gameFinished: boardHitCount >= 9
+                            };
+
+                            if (typeof board.gameNumber !== 'undefined' &&
+                                parseInt(board.gameNumber) > 0 &&
+                                typeof ctx.choseMapData[parseInt(board.gameNumber)] === 'undefined'
+                            ) {
+                                ctx.choseMapData[parseInt(board.gameNumber)] = boardObj;
+                            }
+                            else {
+                                ctx.choseMapData.push(boardObj);
+                            }
+                        }
+
+                        ctx.loadPartials({
+                            header: './templates/common/header.hbs',
+                            footer: './templates/common/footer.hbs',
+                        }).then(function () {
+                            this.partial('./templates/gameplay/chosegame.hbs');
+                        });
+                    })
+                }).catch(notifier.handleError);
+
         }
 
         function displayGameBoard(ctx) {
             ctx.isAnonymous = sessionStorage.getItem('username') === null;
             ctx.username = sessionStorage.getItem('username');
+            ctx.gameId = null;
+            if (typeof ctx.params.id !== "undefined" && ctx.params.id.length > 0) {
+                ctx.gameId = ctx.params.id.charAt(0) === '/' ? ctx.params.id.substr(1) : ctx.params.id;
+                console.log(ctx.gameId)
+            }
 
             ctx.loadPartials({
                 header: './templates/common/header.hbs',
@@ -167,7 +234,6 @@ function startApp() {
                 this.partial('./templates/gameplay/gameboard.hbs');
             });
         }
-
 
         //CREATE MAP
         function displayCreateMapForm(ctx) {
@@ -192,7 +258,7 @@ function startApp() {
                                 }
 
                                 let gameNumber = previousGameNumber + 1;
-                                let gameName = `#Map:${gameNumber}`;
+                                let gameName = `Map:#${gameNumber}`;
 
 
                                 let fieldId = $('#board').find('div');
@@ -255,11 +321,9 @@ function startApp() {
                     notifier.showError("Please select 9 cells")
                 }
 
-
             }
 
         }
-
 
         function displayHallOfFame(ctx) {
             ctx.isAnonymous = sessionStorage.getItem('username') === null;
@@ -272,27 +336,38 @@ function startApp() {
 
             requester.get('appdata', 'gamesPlayed', '')
                 .then(function (resultsData) {
-                    let winners = new Map();
-                    for (let result of resultsData) {
-                        if (result.gameFinished === 'true') {
-                            if (!winners.has(result.userId)) {
-                                winners.set(result.userId, {score: 0, maps: 0})
-                            }
-                            let participant = winners.get(result.userId);
-                            participant.score += Number(result.score);
-                            participant.maps++;
-
-                            winners.set(result.userId, participant);
-                        }
-                    }
-
                     let results = [];
-                    for (let player of winners) {
-                        results.push({username: player[0], totalScore: player[1].score, gamesPlayed: player[1].maps});
-                    }
 
-                    // top 10
-                    results = results.slice(0, 10);
+                    if(resultsData.length ===0){
+                        ctx.loadPartials({
+                            header: './templates/common/header.hbs',
+                            footer: './templates/common/footer.hbs',
+                            highScoresList: './templates/gameresults/highScoresList.hbs'
+                        }).then(function () {
+                            this.partial('./templates/gameresults/halloffamePage.hbs');
+                        });
+                    }else{
+                        let winners = new Map();
+                        for (let result of resultsData) {
+                            if (result.gameStarted === 'true') {
+                                if (!winners.has(result.userId)) {
+                                    winners.set(result.userId, {score: 0, maps: 0})
+                                }
+                                let participant = winners.get(result.userId);
+                                participant.score += Number(result.score);
+                                participant.maps++;
+
+                                winners.set(result.userId, participant);
+                            }
+                        }
+
+                        for (let player of winners) {
+                            results.push({username: player[0], totalScore: player[1].score, gamesPlayed: player[1].maps});
+                        }
+
+                        // top 10
+                        results = results.slice(0, 10);
+
                     for (let userData of results) {
                         requester.get('user', `?query={"_id":"${userData.username}"}`, '').then((userDetails) => {
                             userData.username = userDetails[0].username;
@@ -315,8 +390,7 @@ function startApp() {
 
                         });
                     }
-
-// here
+                 }
 
                 }).catch(notifier.handleError);
         }
