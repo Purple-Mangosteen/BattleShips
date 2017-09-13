@@ -22,12 +22,12 @@
 
 .game-add-row{  
     text-align: center;
-    padding: 5px;
-    margin-top: 10px;
+    padding: 10px;
+    margin-top: 20px;
     border: solid 3px black;
     border-radius: 2rem;
     background: #333333;
-    min-height: 100px;
+    min-height: 110px;
 }
 .game-add-box{
     min-height: 60px;
