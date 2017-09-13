@@ -7,12 +7,16 @@ function startApp() {
     $('#infoBox').click((e) => $(e.target).hide());
     $('#errorBox').click((e) => $(e.target).hide());
 
-    const prefix = '/BattleShips';
-    //const prefix = '';
-
     let whereAmI = window.location;
     console.log(whereAmI);
     console.log(whereAmI.hostname);
+
+    if(whereAmI.hostname==='purple-mangosteen.github.io'){
+        const prefix = '/BattleShips';
+    } else {
+        const prefix = '';
+    }
+
 
     //INITIALIZE SAMMY AND HANDLEBARS
 
