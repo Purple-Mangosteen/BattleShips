@@ -57,6 +57,7 @@ let playground = (() => {
 
                         // if the map has not been started yet it is loaded
                         if (!mapsStarted.includes(board._id)) {
+                            mapsAvailable = true;
                             gameStart(board._id);
                             break;
                         }
@@ -125,7 +126,7 @@ let playground = (() => {
                 for (let block of battleBlocks) {
                     $(block).on('click', shoot);
                 }
-                view.displayMessage("Let's play! There are 3 ships, each 3 cells long");
+                view.displayMessage("Let's play! There are 9 ships on the field sink them all");
             } else {
 
                 // GAME LOADING

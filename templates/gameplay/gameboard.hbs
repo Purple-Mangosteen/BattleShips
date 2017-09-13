@@ -1,81 +1,81 @@
 {{> header}}
 
-<section id="section-game">   
-
-    <div id="board">
-        <div class="container" id="game-init-button">
-            <div class="row">
-                <div class="col-sm-offset-4 col-md-offset-4 col-lg-offset-4 col-sm-4 col-md-4 col-lg-4 game-menu-focus">
-                    <button type="button"
-                            class="btn btn-success btn-lg btn-block game-menu-button"
-                            data-target="game"
-                            onclick="playground.init('{{gameId}}');"
-                    >
-                        Let the battle begin!
-                    </button>                   
+<section id="section-game">
+    <div class="container col-sm-offset-2 col-md-offset-2 col-lg-offset-2 col-sm-8 col-md-8 col-lg-8 game-menu-focus">
+        <div id="board">
+            <div class="container" id="game-init-button">
+                <div class="row">
+                    <div class="col-sm-offset-4 col-md-offset-4 col-lg-offset-4 col-sm-4 col-md-4 col-lg-4">
+                        <button type="button"
+                                class="btn btn-success btn-lg btn-block game-menu-button"
+                                data-target="game"
+                                onclick="playground.init('{{gameId}}');"
+                        >
+                            Let the battle begin!
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div id="messageArea"></div>
-        <table>
-            <tr>
-                <th class="numbers"></th>
-                <th class="numbers">0</th>
-                <th class="numbers">1</th>
-                <th class="numbers">2</th>
-                <th class="numbers">3</th>
-                <th class="numbers">4</th>
-                <th class="numbers">5</th>
-                <th class="numbers">6</th>
-            </tr>
+            <div id="messageArea"></div>
+            <table>
+                <tr>
+                    <th class="numbers"></th>
+                    <th class="numbers">0</th>
+                    <th class="numbers">1</th>
+                    <th class="numbers">2</th>
+                    <th class="numbers">3</th>
+                    <th class="numbers">4</th>
+                    <th class="numbers">5</th>
+                    <th class="numbers">6</th>
+                </tr>
 
-            <tr>
-                <th class="letters">A</th>
-                <td>
-                    <div id="0"></div>
-                </td>
-                <td>
-                    <div id="1"></div>
-                </td>
-                <td>
-                    <div id="2"></div>
-                </td>
-                <td>
-                    <div id="3"></div>
-                </td>
-                <td>
-                    <div id="4"></div>
-                </td>
-                <td>
-                    <div id="5"></div>
-                </td>
-                <td>
-                    <div id="6"></div>
-                </td>
-            </tr>
-            <tr>
-                <th class="letters">B</th>
-                <td>
-                    <div id="7"></div>
-                </td>
-                <td>
-                    <div id="8"></div>
-                </td>
-                <td>
-                    <div id="9"></div>
-                </td>
-                <td>
-                    <div id="10"></div>
-                </td>
-                <td>
-                    <div id="11"></div>
-                </td>
-                <td>
-                    <div id="12"></div>
-                </td>
-                <td>
-                    <div id="13"></div>
-                </td>
+                <tr>
+                    <th class="letters">A</th>
+                    <td>
+                        <div id="0"></div>
+                    </td>
+                    <td>
+                        <div id="1"></div>
+                    </td>
+                    <td>
+                        <div id="2"></div>
+                    </td>
+                    <td>
+                        <div id="3"></div>
+                    </td>
+                    <td>
+                        <div id="4"></div>
+                    </td>
+                    <td>
+                        <div id="5"></div>
+                    </td>
+                    <td>
+                        <div id="6"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="letters">B</th>
+                    <td>
+                        <div id="7"></div>
+                    </td>
+                    <td>
+                        <div id="8"></div>
+                    </td>
+                    <td>
+                        <div id="9"></div>
+                    </td>
+                    <td>
+                        <div id="10"></div>
+                    </td>
+                    <td>
+                        <div id="11"></div>
+                    </td>
+                    <td>
+                        <div id="12"></div>
+                    </td>
+                    <td>
+                        <div id="13"></div>
+                    </td>
                 <tr>
                     <th class="letters">C</th>
                     <td>
@@ -196,8 +196,10 @@
                         <div id="48"></div>
                     </td>
                 </tr>
-        </table>
+            </table>
 
+        </div>
+        <br>
     </div>
 </section>
 

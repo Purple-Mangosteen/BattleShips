@@ -67,7 +67,7 @@ thead>tr>th{
 
 #notifications {
     position: absolute;
-    top: 80vh;
+    top: 90vh;
     right: 40vw;
     margin: 1em;
     }
@@ -75,24 +75,24 @@ thead>tr>th{
 .notification {
     width: 20vw;
     font-size: 1.6em;
-    color: #ffffff;
+    color: #fbffed;
     display: none;
     text-align: left;
 }
 
 .notification {
-    padding:  0.5em 1.5em 0.5em 1.5em;
+    padding:  0.3em 1em 0.3em 1em;
     border-radius: 10px;
 }
 
 #loadingBox {
-    background: #7CB3E9;
+    background: #4e7ee9;
 }
 #infoBox {
-    background: #393;
+    background: #1c9904;
 }
 #errorBox {
-    background: #F50;
+    background: #ff3726;
 }
 
 #createMapBtn{
