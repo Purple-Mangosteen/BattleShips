@@ -36,7 +36,7 @@ let playground = (() => {
         }
     };
 
-    function init(mapId=null) {
+    function init(mapId = null) {
         // if there is no mapId or map id is empty string
         if (mapId === null || mapId === '') {
             requester.get('appdata', 'gameBoards', '').then((boardsInfo) => {
@@ -75,42 +75,113 @@ let playground = (() => {
 
     }
 
+    function clearGameStats() {
+        model.ships = [];
+        model.score = 0;
+        model.history = new Array(fields).fill('unknown');
+        model.points = startingPoints;
+    }
+
     function gameStart(boardId) {
-        console.log('map',boardId)
         sessionStorage.setItem('boardId', boardId);
-        // MAP INITIALIZATION
-        let historyData = {
-            gameId: boardId,
-            userId: sessionStorage.getItem('userId'),
-            score: 40,
-            boardProgress: model.history
-        };
 
-        requester.post('appdata', 'gamesPlayed', '', historyData).then((req) => {
-            sessionStorage.setItem('historyId', req._id);
-        });
 
-        mapsAvailable = true;
+        // game nulling
+        clearGameStats();
 
-        // get ships location from the database
-        requester.get('appdata', 'gameBoards/' + boardId, '').then((mapInfo) => {
-            for (let i = 0; i < mapInfo.board.length; i++) {
-                let ship = {hits: 0, coordinates: mapInfo.board[i].coordinates};
-                model.ships.push(ship);
+        requester.get('appdata', `gamesPlayed?query={"userId":"${sessionStorage.getItem('userId')}","gameId":"${boardId}"}`, '').then((loadedHistory) => {
+            // checks if the game has been started
+            console.log(loadedHistory);
+            if (loadedHistory.length === 0) {
+                // GAME CLEAN START
+
+                // MAP INITIALIZATION
+                let historyData = {
+                    gameId: boardId,
+                    userId: sessionStorage.getItem('userId'),
+                    score: 40,
+                    boardProgress: model.history
+                };
+
+                requester.post('appdata', 'gamesPlayed', '', historyData).then((req) => {
+                    sessionStorage.setItem('historyId', req._id);
+                });
+
+                // get ships location from the database
+                requester.get('appdata', 'gameBoards/' + boardId, '').then((mapInfo) => {
+                    for (let i = 0; i < mapInfo.board.length; i++) {
+                        let ship = {hits: 0, coordinates: mapInfo.board[i].coordinates};
+                        model.ships.push(ship);
+                    }
+                });
+
+                // hides game start button
+                $('#game-init-button').hide();
+
+                console.log('game initialization...');
+
+                // attach click event listener to each field
+                let battleBlocks = $('td');
+                for (let block of battleBlocks) {
+                    $(block).on('click', shoot);
+                }
+                view.displayMessage("Let's play! There are 3 ships, each 3 cells long");
+            } else {
+
+                // GAME LOADING
+
+
+                // sessionStorage.setItem('historyId', req._id);
+                console.log(loadedHistory[0]);
+                sessionStorage.setItem('historyId', loadedHistory[0]._id);
+                // get ships location from the database
+                requester.get('appdata', 'gameBoards/' + boardId, '').then((mapInfo) => {
+                    for (let i = 0; i < mapInfo.board.length; i++) {
+                        let ship = {hits: 0, coordinates: mapInfo.board[i].coordinates};
+                        model.ships.push(ship);
+                    }
+                });
+
+                // hides game start button
+                $('#game-init-button').hide();
+
+                console.log('game loading and initialization..');
+
+                // attach click event listener to each field
+                let battleBlocks = $('td');
+                let blockIndex = 0;
+
+                model.history = loadedHistory[0].boardProgress;
+                for (let block of battleBlocks) {
+                    if (loadedHistory[0].boardProgress[blockIndex] === 'unknown') {
+                        // add shoot event to not triggered blocks
+                        $(block).on('click', shoot);
+                    }
+
+                    if (loadedHistory[0].boardProgress[blockIndex] === 'hit') {
+                        // increase model score(not points) with 1
+
+                        model.score++;
+
+                        // add hit class to td
+                        $(`#${blockIndex}`).addClass('hit');
+                    }
+
+                    if (loadedHistory[0].boardProgress[blockIndex] === 'miss') {
+                        // deduct model points with 1
+                        model.points--;
+                        // add miss class to td
+                        $(`#${blockIndex}`).addClass('miss');
+                    }
+                    blockIndex++;
+                }
+                view.displayMessage("Let's play! There are 3 ships, each 3 cells long");
+
+
             }
+
         });
 
-        // hides game start button
-        $('#game-init-button').hide();
-
-        console.log('game initialization...');
-
-        // attach click event listener to each field
-        let battleBlocks = $('td');
-        for (let block of battleBlocks) {
-            $(block).on('click', shoot);
-        }
-        view.displayMessage("Let's play! There are 3 ships, each 3 cells long");
 
     }
 
@@ -154,11 +225,13 @@ let playground = (() => {
             userId: sessionStorage.getItem('userId'),
             score: model.points,
             boardProgress: model.history,
-            gameStarted : false
+            gameStarted: false,
+            gameFinished: false
         };
 
         if (model.score === gameWinScore) {
             historyData.gameStarted = true;
+            historyData.gameFinished = true;
         }
 
         requester.update('appdata', 'gamesPlayed/' + sessionStorage.getItem('historyId'), '', historyData).then((data) => {
@@ -172,10 +245,7 @@ let playground = (() => {
         // checks if game has ended
         if (model.score === gameWinScore) {
             view.displayWinn(model.points);
-            model.ships = [];
-            model.score = 0;
-            model.history = new Array(fields).fill('unknown');
-            model.points = startingPoints;
+            clearGameStats();
         }
     }
 
