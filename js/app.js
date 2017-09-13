@@ -11,12 +11,11 @@ function startApp() {
     console.log(whereAmI);
     console.log(whereAmI.hostname);
 
-    if(whereAmI.hostname==='purple-mangosteen.github.io'){
-        const prefix = '/BattleShips';
-    } else {
-        const prefix = '';
-    }
+    let prefix = '';
 
+    if(whereAmI.hostname==='purple-mangosteen.github.io'){
+        prefix = '/BattleShips';
+    }
 
     //INITIALIZE SAMMY AND HANDLEBARS
 
