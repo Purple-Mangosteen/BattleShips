@@ -242,7 +242,7 @@ function startApp() {
                         //get the last map
                         gameServices.getTheLastMap()
                             .then((mapinfo) => {
-
+                                console.log(mapinfo)
                                 let previousGameNumber = 0;
                                 if (mapinfo.length === 0) {
 
@@ -290,8 +290,7 @@ function startApp() {
             });
 
             function createMap(coordinatesList, gameNumber, gameName) {
-
-
+               // console.log(gameNumber)
                 if (coordinatesList.length === 9) {
                     let board = [];
 
