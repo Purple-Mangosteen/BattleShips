@@ -16,7 +16,7 @@ let gameServices = (()=>{
 
     function getTheLastMap() {
 
-        let  endpoint = 'gameBoards?query={}&sort={"gameNumber": -1}&limit=1';
+        let  endpoint = 'gameBoards?query={}&sort={"_kmd": -1}&limit=1';
 
        return requester.get('appdata', endpoint, 'Kinvey')
 
