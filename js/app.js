@@ -7,16 +7,6 @@ function startApp() {
     $('#infoBox').click((e) => $(e.target).hide());
     $('#errorBox').click((e) => $(e.target).hide());
 
-    let whereAmI = window.location;
-    console.log(whereAmI);
-    console.log(whereAmI.hostname);
-
-    let prefix = '';
-
-    if(whereAmI.hostname==='purple-mangosteen.github.io'){
-        prefix = '/BattleShips';
-    }
-
     //INITIALIZE SAMMY AND HANDLEBARS
 
     const app = Sammy('#pagebody', function () {
@@ -24,8 +14,8 @@ function startApp() {
         this.use('Handlebars', 'hbs');
 
         // HOME
-        this.get('/index.html', displayHome);
-        this.get('/index.html/#home', displayHome);
+        this.get('index.html', displayHome);
+        this.get('index.html/#home', displayHome);
         this.get('#/home', displayHome);
 
         this.get('#/login', displayLoginForm);
@@ -47,7 +37,7 @@ function startApp() {
 
 
         function redirectToHome(ctx) {            
-            ctx.redirect(prefix+'/index.html#/home');
+            ctx.redirect('index.html#/home');
         }
 
         function displayHome(ctx) {
@@ -61,11 +51,11 @@ function startApp() {
                     ctx.gameCount = count['count'];
 
                     ctx.loadPartials({
-                        header: prefix+'/templates/common/header.hbs',
-                        footer: prefix+'/templates/common/footer.hbs',
-                        home: prefix+'/templates/home/home.hbs'
+                        header: 'templates/common/header.hbs',
+                        footer: 'templates/common/footer.hbs',
+                        home: 'templates/home/home.hbs'
                     }).then(function () {
-                        this.partial(prefix+'/templates/home/homePage.hbs');
+                        this.partial('templates/home/homePage.hbs');
                     });
 
                 }).catch(notifier.handleError);
@@ -234,7 +224,7 @@ function startApp() {
                 header: 'templates/common/header.hbs',
                 footer: 'templates/common/footer.hbs',
             }).then(function () {
-                this.partial('./templates/gameplay/gameboard.hbs');
+                this.partial('templates/gameplay/gameboard.hbs');
             });
         }
 
@@ -343,11 +333,11 @@ function startApp() {
 
                     if(resultsData.length ===0){
                         ctx.loadPartials({
-                            header: './templates/common/header.hbs',
-                            footer: './templates/common/footer.hbs',
-                            highScoresList: './templates/gameresults/highScoresList.hbs'
+                            header: 'templates/common/header.hbs',
+                            footer: 'templates/common/footer.hbs',
+                            highScoresList: 'templates/gameresults/highScoresList.hbs'
                         }).then(function () {
-                            this.partial('./templates/gameresults/halloffamePage.hbs');
+                            this.partial('templates/gameresults/halloffamePage.hbs');
                         });
                     }else{
                         let winners = new Map();
@@ -384,11 +374,11 @@ function startApp() {
                             });
                             ctx.results = results;
                             ctx.loadPartials({
-                                header: './templates/common/header.hbs',
-                                footer: './templates/common/footer.hbs',
-                                highScoresList: './templates/gameresults/highScoresList.hbs'
+                                header: 'templates/common/header.hbs',
+                                footer: 'templates/common/footer.hbs',
+                                highScoresList: 'templates/gameresults/highScoresList.hbs'
                             }).then(function () {
-                                this.partial('./templates/gameresults/halloffamePage.hbs');
+                                this.partial('templates/gameresults/halloffamePage.hbs');
                             });
 
                         });
@@ -403,10 +393,10 @@ function startApp() {
             ctx.username = sessionStorage.getItem('username');
 
             ctx.loadPartials({
-                header: './templates/common/header.hbs',
-                footer: './templates/common/footer.hbs',
+                header: 'templates/common/header.hbs',
+                footer: 'templates/common/footer.hbs',
             }).then(function () {
-                this.partial('./templates/gameplay/howtoplay.hbs');
+                this.partial('templates/gameplay/howtoplay.hbs');
             });
         }
 
